@@ -34,7 +34,7 @@ public static class DebugMenu {
 		foreach (Transform road in roads) {
 			road.position = pos;
 			road.rotation = rot;
-			Transform end = road.Find("end");
+			Transform end = road.Find("positionNodes").Find("end2");
 			pos = end.position;
 			rot = end.rotation;
 		}
