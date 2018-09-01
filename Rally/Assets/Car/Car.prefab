@@ -210,7 +210,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1744605841893216}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.46, z: 4.21}
+  m_LocalPosition: {x: 0, y: 0.631, z: 0.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4628652774223854}
@@ -263,8 +263,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1939575906029876}
   m_LocalRotation: {x: 0, y: 1, z: -0, w: -0.0000001872535}
-  m_LocalPosition: {x: -0.164, y: -0.062, z: -4.671}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
+  m_LocalPosition: {x: 0, y: -0.062, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 4157428827396472}
   - {fileID: 4271228971897200}
@@ -608,8 +608,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 3.13, z: 7.94}
-  m_Center: {x: 0, y: 1.62, z: 0}
+  m_Size: {x: 1, y: 0.7825, z: 1.985}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95473432351477798
 Animator:
   serializedVersion: 3
@@ -640,5 +640,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  maxSpeed: 40
-  acceleration: 20
+  maxSpeed: 12
+  acceleration: 6
