@@ -140,7 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4710120210248202}
   m_Layer: 0
-  m_Name: RoadLeft180
+  m_Name: RoadRight180
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,8 +184,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1863259305004476}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.1, y: 0, z: -0}
-  m_LocalScale: {x: 0.10623066, y: -8.013263, z: 2.387129}
+  m_LocalPosition: {x: 0.1, y: 0, z: -0}
+  m_LocalScale: {x: -0.1062307, y: -8.013263, z: 2.387129}
   m_Children: []
   m_Father: {fileID: 4936141042009350}
   m_RootOrder: 0
@@ -278,7 +278,7 @@ Transform:
   m_GameObject: {fileID: 1243977260371524}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 4556723269849632}
   - {fileID: 4800253194977398}
