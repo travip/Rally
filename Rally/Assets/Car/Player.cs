@@ -6,10 +6,12 @@ public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
 
-    public enum ActionType { RightBend, RightTurn, RightSquare, RightAcute, LeftBend, LeftTurn, LeftSquare, LeftAcute, Fast, Slow }
+    public enum ActionType { None, RightBend, RightTurn, RightSquare, RightAcute, LeftBend, LeftTurn, LeftSquare, LeftAcute, Fast, Slow }
     private readonly Queue<ActionType> PlayerActions = new Queue<ActionType>();
 
     public int MaxInputs { get; private set; }
+
+    public Car playerCar;
 
     public ActionType[] GetPlayerActions()
     {
@@ -23,6 +25,7 @@ public class Player : MonoBehaviour
         if (PlayerActions.Count < MaxInputs)
         {
             PlayerActions.Enqueue(action);
+            playerCar.OnPlayerInput(action);
             return true;
         }
         else

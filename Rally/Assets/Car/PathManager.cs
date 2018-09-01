@@ -36,14 +36,25 @@ public class PathManager : MonoBehaviour
         else
             Destroy(this);
 
-        pathGenerator = new PathGenerator(100);
+        pathGenerator = new PathGenerator();
     }
 
     public Path GeneratePath(Vector3 start, Quaternion startAngle, Vector3 end, Quaternion endAngle)
     {
         Path path = new Path();
-        pathGenerator.CubicHermiteSpline(Path.WorldToPath(start), Path.QuaternionToTangent(startAngle, 25), Path.WorldToPath(end), Path.QuaternionToTangent(endAngle, 25), 
+        pathGenerator.CubicHermiteSpline(Path.WorldToPath(start), Path.QuaternionToTangent(startAngle, 10), Path.WorldToPath(end), Path.QuaternionToTangent(endAngle, 10), 
             out path.Points, out path.Tangents);
+        path.GenerateAnglesFromTangents();
+        return path;
+    }
+
+    // Generated a path, also consideres segmentation from waypoints
+    public Path GeneratePath(Waypoint start, Waypoint end)
+    {
+        Path path = new Path();
+        pathGenerator.CubicHermiteSpline(Path.WorldToPath(start.Position), Path.QuaternionToTangent(end.Rotation, 10), Path.WorldToPath(end.Position), Path.QuaternionToTangent(end.Rotation, 10),
+            out path.Points, out path.Tangents);
+        path.isNewSegment = end.isNewSegment;
         path.GenerateAnglesFromTangents();
         return path;
     }

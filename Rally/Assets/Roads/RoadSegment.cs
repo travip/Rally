@@ -6,8 +6,15 @@ public class RoadSegment : MonoBehaviour
 {
     public Player.ActionType RoadType;
 
+    [SerializeField]
     private Transform[] endPoints = new Transform[3];
+    [SerializeField]
     private Transform[] midPoints = new Transform[3];
+
+    public Transform FailLeft;
+    public Transform FailRight;
+    public Transform MissLeft;
+    public Transform MissRight;
 
     public RoadSegment NextSegment;
     public RoadSegment LastSegment;
@@ -22,13 +29,17 @@ public class RoadSegment : MonoBehaviour
         return transform.position;
     }
 
-    public Vector3 GetRandomMidpoint()
+    public Waypoint GetRandomMidpoint()
     {
-        return midPoints[Random.Range(0, 2)].position;
+        //Transform point = midPoints[Random.Range(0, 2)];
+        Transform point = midPoints[2];
+        return new Waypoint(point.position, point.rotation, false);
     }
 
-    public Vector3 GetRandomEndpoint()
+    public Waypoint GetRandomEndpoint()
     {
-        return endPoints[Random.Range(0, 2)].position;
+        //Transform point = endPoints[Random.Range(0, 2)];
+        Transform point = endPoints[2];
+        return new Waypoint(point.position, point.rotation, true);
     }
 }
