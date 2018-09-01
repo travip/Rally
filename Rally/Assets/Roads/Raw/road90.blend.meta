@@ -1,33 +1,14 @@
 fileFormatVersion: 2
-guid: 7aa0c3ca87fb5ea43b3e58c5b2b19d94
+guid: e5b7468692b88a44b8486a5ff39046e7
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: carbody
-    100002: light1
-    100004: light2
-    100006: //RootNode
-    100008: wheel
-    400000: carbody
-    400002: light1
-    400004: light2
-    400006: //RootNode
-    400008: wheel
-    2100000: Material
-    2100002: unnamed
-    2100004: Material__carUVex_png
-    2300000: carbody
-    2300002: light1
-    2300004: light2
-    2300006: wheel
-    3300000: carbody
-    3300002: light1
-    3300004: light2
-    3300006: wheel
-    4300000: light2
-    4300002: light1
-    4300004: wheel
-    4300006: carbody
+    100000: //RootNode
+    400000: //RootNode
+    2100000: unnamed
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Cube
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}
