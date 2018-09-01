@@ -45,7 +45,7 @@ public class PathGenerator
         }
     }
 
-    public void RightBendPath(Vector2 startPoint, Vector2 startTangent, Vector2 endPoint, Vector2 endTangent, out Vector2[] path, out Vector2[] tangent)
+    public void CubicHermiteSpline(Vector2 startPoint, Vector2 startTangent, Vector2 endPoint, Vector2 endTangent, out Vector2[] path, out Vector2[] tangent)
     {
         path = new Vector2[NumPoints];
         tangent = new Vector2[NumPoints];

@@ -24,7 +24,6 @@ public class TurnImage : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
     }
 
     public void RemoveThisItem()
