@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; private set; }
 
     public enum ActionType { RightBend, RightTurn, RightSquare, RightAcute, LeftBend, LeftTurn, LeftSquare, LeftAcute, Fast, Slow }
     private readonly Queue<ActionType> PlayerActions = new Queue<ActionType>();
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
 
     public bool PlayerInput(ActionType action)
     {
+        Debug.Log("Player input:" + action);
         if (PlayerActions.Count < MaxInputs)
         {
             PlayerActions.Enqueue(action);
@@ -29,5 +31,13 @@ public class Player : MonoBehaviour
     public ActionType GetNextAction()
     {
         return PlayerActions.Dequeue();
-    }                
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this);
+    }
 }
