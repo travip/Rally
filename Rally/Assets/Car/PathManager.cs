@@ -7,11 +7,20 @@ public class PathManager : MonoBehaviour
     private PathGenerator pathGenerator;
 
     public GameObject DEBUG_OBJECT;
+    public GameObject Waypoint;
 
     public Vector3 START;
     public Vector3 START_TANGENT;
     public Vector3 END;
     public Vector3 END_TANGENT;
+
+    // Target points
+    public List<Vector3> DEBUG_POINTS;
+    public List<Vector3> DEBUG_ANGLES;
+
+    // Generated path
+    private List<Vector2> PATH_POINTS = new List<Vector2>();
+    private List<Vector2> ANGLE_POINTS = new List<Vector2>();
 
     public int DEBUG_DROP_OBJECT_ON_EVERY_X_POINTS = 0;
 
@@ -41,21 +50,34 @@ public class PathManager : MonoBehaviour
 
     public void PLACE_DEBUG_ON_PATH()
     {
-        Instantiate(DEBUG_OBJECT).transform.SetPositionAndRotation(PathToWorld(path[99]), TangentToRotation(angles[99]));
+        Instantiate(DEBUG_OBJECT).transform.SetPositionAndRotation(PathToWorld(PATH_POINTS[PATH_POINTS.Count - 1]), TangentToRotation(ANGLE_POINTS[PATH_POINTS.Count - 1]));
     }
 
-    public void TEXT_PATH()
+    public void DEBUG_PlaceWaypoints()
     {
-        Debug.Log("START ANGLE: " + TangentToRotation(START_TANGENT).eulerAngles.y + "|| END ANGLE :" + TangentToRotation(END_TANGENT).eulerAngles.y);
-        pathGenerator.RightBendPath(WorldToPath(START), WorldToPath(START_TANGENT), WorldToPath(END), WorldToPath(END_TANGENT).normalized, out path, out angles);
+        foreach (Vector3 v in DEBUG_POINTS)
+            Instantiate(Waypoint).transform.SetPositionAndRotation(v, Quaternion.identity);
+    }
 
-        for(int i = 0; i < 99; i++)
+    public void TEST_PATH()
+    {
+        DEBUG_PlaceWaypoints();
+        for (int i = 0; i < DEBUG_POINTS.Count - 1; i++)
         {
-            Debug.DrawLine(PathToWorld(path[i]), PathToWorld(path[i + 1]), Color.red, 10f);
+            pathGenerator.RightBendPath(WorldToPath(DEBUG_POINTS[i]), WorldToPath(DEBUG_ANGLES[i]), WorldToPath(DEBUG_POINTS[i+1]), WorldToPath(DEBUG_ANGLES[i+1]), out path, out angles);
+            PATH_POINTS.AddRange(path);
+            ANGLE_POINTS.AddRange(angles);
+        }
+
+        Debug.Log("Path count: " + PATH_POINTS.Count);
+
+        for(int i = 0; i < PATH_POINTS.Count - 1; i++)
+        {
+            Debug.DrawLine(PathToWorld(PATH_POINTS[i]), PathToWorld(PATH_POINTS[i + 1]), Color.red, 100f);
             if (DEBUG_DROP_OBJECT_ON_EVERY_X_POINTS > 0)
             {
                 if (i % DEBUG_DROP_OBJECT_ON_EVERY_X_POINTS == 0)
-                    Instantiate(DEBUG_OBJECT).transform.SetPositionAndRotation(PathToWorld(path[i]), TangentToRotation(angles[i]));
+                    Instantiate(DEBUG_OBJECT).transform.SetPositionAndRotation(PathToWorld(PATH_POINTS[i]), TangentToRotation(ANGLE_POINTS[i]));
             }
         }
         PLACE_DEBUG_ON_PATH();
