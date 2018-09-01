@@ -10,12 +10,12 @@ public class Camera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		offset = transform.position - target.transform.position;
+		this.offset = transform.position - target.transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		Vector3 newPos = target.transform.position + offset;
-		transform.position = Vector3.Lerp(transform.position, newPos, followLag);
+		this.transform.position = Vector3.Lerp(transform.position, newPos, followLag);
 	}
 }
