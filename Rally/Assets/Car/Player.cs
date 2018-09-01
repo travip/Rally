@@ -29,8 +29,14 @@ public class Player : MonoBehaviour
             return false;
     }
 
+    public int NumActionsQueued()
+    {
+        return PlayerActions.Count;
+    }
+
     public ActionType GetNextAction()
     {
+        PlayerUI.Instance.DequeueAction();
         return PlayerActions.Dequeue();
     }
 
@@ -40,5 +46,15 @@ public class Player : MonoBehaviour
             Instance = this;
         else
             Destroy(this);
+    }
+
+    private void Start()
+    {
+        MaxInputs = 5;
+    }
+
+    public void TEXT_DEQUEUE()
+    {
+        this.GetNextAction();
     }
 }

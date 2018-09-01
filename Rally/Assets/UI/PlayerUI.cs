@@ -1,12 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerUI : MonoBehaviour
 {
     public static PlayerUI Instance { get; private set; }
 
+    // Turning UI
     [SerializeField]
     private Transform playerTurnInputList;
     [SerializeField]
@@ -20,6 +23,10 @@ public class PlayerUI : MonoBehaviour
 
     private readonly Queue<TurnImage> turnImageQueue = new Queue<TurnImage>();
 
+    // Timer
+    private float time;
+    public TextMeshProUGUI timerText;
+
 	// Use this for initialization
 	void Awake () {
         if (Instance == null)
@@ -29,9 +36,23 @@ public class PlayerUI : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+	void Update ()
+    {
+        time += Time.deltaTime;
+        UpdateTimer();
+
+    }
+
+    private void UpdateTimer()
+    {
+        TimeSpan timeSpan = TimeSpan.FromSeconds(time);
+        timerText.text = string.Format("{0:D2}:{1:D2}.{2:D1}", timeSpan.Minutes, timeSpan.Seconds, Mathf.FloorToInt(timeSpan.Milliseconds/100));
+    }
+
+    public void DequeueAction()
+    {
+        turnImageQueue.Dequeue().RemoveThisItem();
+    }
 
     public void AddTurnImageToList(Player.ActionType actionType)
     {

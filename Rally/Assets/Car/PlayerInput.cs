@@ -6,7 +6,7 @@ public class PlayerInput : MonoBehaviour
 {
     public static PlayerInput Instance { get; private set; }
     private const int MAX_TURN_PRESSES = 4;
-    private const int MAX_FORWARD_PRESSES = 4;
+    private const int MAX_FORWARD_PRESSES = 2;
 
     // Player Inputs
     private enum Inputs { Left, Right, Forward }
@@ -35,21 +35,26 @@ public class PlayerInput : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        if (Player.Instance.NumActionsQueued() >= 5)
+            return;
         timeSinceLastPress += Time.deltaTime;
         if (timeSinceLastPress > maxTimeBetweenPresses && seqKeyPresses > 0)
             FinalInput();
         if (Input.GetKeyDown(leftKey))
-            InputKeyPressed(Inputs.Left);
+            TurnKeyPressed(Inputs.Left);
         else if (Input.GetKeyDown(rightKey))
-            InputKeyPressed(Inputs.Right);
+            TurnKeyPressed(Inputs.Right);
         else if (Input.GetKeyDown(forwardKey))
             ForwardKeyPressed();
         else if (Input.GetKeyDown(confirmKey))
             ConfirmKeyPressed();
 	}
 
-    private void InputKeyPressed(Inputs input)
+    private void TurnKeyPressed(Inputs input)
     {
+        if (lastPressed != input && seqKeyPresses > 0)
+            FinalInput();
+
         seqKeyPresses++;
         lastPressed = input;
         timeSinceLastPress = 0.0f;
@@ -61,6 +66,9 @@ public class PlayerInput : MonoBehaviour
 
     private void ForwardKeyPressed()
     {
+        if (lastPressed != Inputs.Forward && seqKeyPresses > 0)
+            FinalInput();
+
         seqKeyPresses++;
         lastPressed = Inputs.Forward;
         timeSinceLastPress = 0.0f;
