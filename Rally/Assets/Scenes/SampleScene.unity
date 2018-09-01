@@ -584,6 +584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1009143275}
+  followLag: 0.26
 --- !u!1 &537790208
 GameObject:
   m_ObjectHideFlags: 0

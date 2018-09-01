@@ -6,6 +6,7 @@ public class Camera : MonoBehaviour {
 
 	public GameObject target;
 	private Vector3 offset;
+	public float followLag;
 
 	// Use this for initialization
 	void Start () {
@@ -14,6 +15,7 @@ public class Camera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = target.transform.position + offset;
+		Vector3 newPos = target.transform.position + offset;
+		transform.position = Vector3.Lerp(transform.position, newPos, followLag);
 	}
 }
