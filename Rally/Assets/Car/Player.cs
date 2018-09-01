@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public bool PlayerInput(ActionType action)
     {
         Debug.Log("Player input:" + action);
+        PlayerUI.Instance.AddTurnImageToList(action);
         if (PlayerActions.Count < MaxInputs)
         {
             PlayerActions.Enqueue(action);

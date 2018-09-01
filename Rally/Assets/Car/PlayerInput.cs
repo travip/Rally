@@ -5,10 +5,11 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     public static PlayerInput Instance { get; private set; }
-    private const int MAX_PRESSES = 4;
+    private const int MAX_TURN_PRESSES = 4;
+    private const int MAX_FORWARD_PRESSES = 4;
 
     // Player Inputs
-    private enum Inputs { Left, Right }
+    private enum Inputs { Left, Right, Forward }
     private Inputs lastPressed;
 
     private float timeSinceLastPress = 0;
@@ -18,9 +19,10 @@ public class PlayerInput : MonoBehaviour
     private bool inputStarted = false;
 
     // KeyCodes (for customization
-    public KeyCode leftKey;
-    public KeyCode rightKey;
-    public KeyCode confirmKey;
+    public KeyCode forwardKey = KeyCode.UpArrow;
+    public KeyCode leftKey = KeyCode.LeftArrow;
+    public KeyCode rightKey = KeyCode.RightArrow;
+    public KeyCode confirmKey = KeyCode.Space;
 
 	// Use this for initialization
 	void Awake () {
@@ -40,18 +42,30 @@ public class PlayerInput : MonoBehaviour
             InputKeyPressed(Inputs.Left);
         else if (Input.GetKeyDown(rightKey))
             InputKeyPressed(Inputs.Right);
+        else if (Input.GetKeyDown(forwardKey))
+            ForwardKeyPressed();
         else if (Input.GetKeyDown(confirmKey))
             ConfirmKeyPressed();
 	}
 
-    private void InputKeyPressed(PlayerInput.Inputs input)
+    private void InputKeyPressed(Inputs input)
     {
         seqKeyPresses++;
         lastPressed = input;
         timeSinceLastPress = 0.0f;
 
         // Already 3 presses, a max 4 turn
-        if(seqKeyPresses == MAX_PRESSES)
+        if(seqKeyPresses == MAX_TURN_PRESSES)
+            FinalInput();
+    }
+
+    private void ForwardKeyPressed()
+    {
+        seqKeyPresses++;
+        lastPressed = Inputs.Forward;
+        timeSinceLastPress = 0.0f;
+
+        if (seqKeyPresses == MAX_FORWARD_PRESSES)
             FinalInput();
     }
 
@@ -104,9 +118,24 @@ public class PlayerInput : MonoBehaviour
                     break;
             }
         }
+        else if(lastPressed == Inputs.Forward)
+        {
+            switch(seqKeyPresses)
+            {
+                case 0:
+                    Debug.Log("Something went wrong, 0 key input");
+                    return;
+                case 1:
+                    Player.Instance.PlayerInput(Player.ActionType.Slow);
+                    break;
+                case 2:
+                    Player.Instance.PlayerInput(Player.ActionType.Fast);
+                    break;
+            }
+        }
         else
         {
-            Debug.Log("? Not left or right input");
+            Debug.Log("? Not left or right or forward inpuit");
         }
         // Clean up input
         inputStarted = false;
