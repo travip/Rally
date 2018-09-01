@@ -13,9 +13,10 @@ public class PathManager : MonoBehaviour
     public Vector3 END;
     public Vector3 END_TANGENT;
 
-    public bool DEBUG_DROP_OBJECT_ON_ALL_POINTS = false;
+    public int DEBUG_DROP_OBJECT_ON_EVERY_X_POINTS = 0;
 
-    Vector2[] currentPath;
+    Vector2[] path;
+    Vector2[] angles;
 
     public static Vector2 WorldToPath(Vector3 vec)
     {
@@ -27,6 +28,12 @@ public class PathManager : MonoBehaviour
         return new Vector3(vec.x, 0f, vec.y);
     }
 
+    public static Quaternion TangentToRotation(Vector2 tangent)
+    {
+        float angle = Mathf.Atan2(tangent.x, tangent.y) * Mathf.Rad2Deg;
+        return Quaternion.Euler(new Vector3(0f, angle, 0f));
+    }
+
     private void Awake()
     {
         pathGenerator = new PathGenerator(100);
@@ -34,20 +41,22 @@ public class PathManager : MonoBehaviour
 
     public void PLACE_DEBUG_ON_PATH()
     {
-        Instantiate(DEBUG_OBJECT).transform.SetPositionAndRotation(START, Quaternion.identity);
-        Instantiate(DEBUG_OBJECT).transform.SetPositionAndRotation(END, Quaternion.identity);
+        Instantiate(DEBUG_OBJECT).transform.SetPositionAndRotation(PathToWorld(path[99]), TangentToRotation(angles[99]));
     }
 
     public void TEXT_PATH()
     {
-        currentPath = new Vector2[100];
-        currentPath = pathGenerator.RightBendPath(WorldToPath(START), WorldToPath(START_TANGENT), WorldToPath(END), WorldToPath(END_TANGENT));
+        Debug.Log("START ANGLE: " + TangentToRotation(START_TANGENT).eulerAngles.y + "|| END ANGLE :" + TangentToRotation(END_TANGENT).eulerAngles.y);
+        pathGenerator.RightBendPath(WorldToPath(START), WorldToPath(START_TANGENT), WorldToPath(END), WorldToPath(END_TANGENT).normalized, out path, out angles);
 
         for(int i = 0; i < 99; i++)
         {
-            Debug.DrawLine(PathToWorld(currentPath[i]), PathToWorld(currentPath[i + 1]), Color.red, 10f);
-            if(DEBUG_DROP_OBJECT_ON_ALL_POINTS)
-                Instantiate(DEBUG_OBJECT).transform.SetPositionAndRotation(PathToWorld(currentPath[i]), Quaternion.identity);
+            Debug.DrawLine(PathToWorld(path[i]), PathToWorld(path[i + 1]), Color.red, 10f);
+            if (DEBUG_DROP_OBJECT_ON_EVERY_X_POINTS > 0)
+            {
+                if (i % DEBUG_DROP_OBJECT_ON_EVERY_X_POINTS == 0)
+                    Instantiate(DEBUG_OBJECT).transform.SetPositionAndRotation(PathToWorld(path[i]), TangentToRotation(angles[i]));
+            }
         }
         PLACE_DEBUG_ON_PATH();
     }
