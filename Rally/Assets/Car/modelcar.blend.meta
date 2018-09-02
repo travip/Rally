@@ -8,26 +8,34 @@ ModelImporter:
     100004: light2
     100006: //RootNode
     100008: wheel
+    100010: carbody_001
     400000: carbody
     400002: light1
     400004: light2
     400006: //RootNode
     400008: wheel
+    400010: carbody_001
     2100000: Material
     2100002: unnamed
     2100004: Material__carUVex_png
+    2100006: glassblack__carUVex_png
+    2100008: orangelights
+    2100010: None__tireUVex_png
     2300000: carbody
     2300002: light1
     2300004: light2
     2300006: wheel
+    2300008: carbody_001
     3300000: carbody
     3300002: light1
     3300004: light2
     3300006: wheel
+    3300008: carbody_001
     4300000: light2
     4300002: light1
     4300004: wheel
     4300006: carbody
+    4300008: carbody_001
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}
