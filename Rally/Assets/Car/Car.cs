@@ -70,6 +70,10 @@ public class Car : MonoBehaviour
         carMsg.DisplayStartMessage();
     }
 
+	public void StartGame() {
+		transform.Find("ExhaustParticles").gameObject.SetActive(true);
+	}
+
     private void InitialPopulateRoads()
     {
         for(RoadsAdded = 0; RoadsAdded < 20; RoadsAdded++)
@@ -95,6 +99,7 @@ public class Car : MonoBehaviour
     {
         if(++Misses == 3)
         {
+			transform.Find("ExhaustParticles").gameObject.SetActive(false);
             Crashed = true;
             carMsg.DisplayCrashMessage();
             StopAllCoroutines();
