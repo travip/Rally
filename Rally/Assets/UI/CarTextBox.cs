@@ -11,8 +11,12 @@ public class CarTextBox : MonoBehaviour
     public Camera mainCamera;
 
     Vector3 textPos;
-    public Image MsgBox;
-    public TextMeshProUGUI msg;
+    public Transform MsgBox;
+
+    public Transform PlayerBox;
+    public Transform DriverBox;
+    public TextMeshProUGUI driverMsg;
+    public TextMeshProUGUI playerMsg;
 
     public float MsgTime = 1.5f;
     private bool msgActive;
@@ -26,7 +30,7 @@ public class CarTextBox : MonoBehaviour
         if (msgActive)
         {
             textPos = mainCamera.WorldToScreenPoint(playerCar.TextBoxAnchor.position);
-            MsgBox.transform.position = textPos;
+            MsgBox.position = textPos;
         }
     }
 
@@ -34,29 +38,38 @@ public class CarTextBox : MonoBehaviour
     {
         msgActive = true;
         StopAllCoroutines();
-        StartCoroutine(DisplayMessage(crashMsgs[0]));
+        StartCoroutine(DisplayDriverMsg(crashMsgs[0]));
     }
 
     public void DisplayMissMessage()
     {
         msgActive = true;
         StopAllCoroutines();
-        StartCoroutine(DisplayMessage(missMsgs[0]));
+        StartCoroutine(DisplayDriverMsg(missMsgs[0]));
     }
 
     public void DisplaySuccessMessage()
     {
         msgActive = true;
         StopAllCoroutines();
-        StartCoroutine(DisplayMessage(successMsgs[0]));
+        StartCoroutine(DisplayDriverMsg(successMsgs[0]));
     }
 
-    public IEnumerator DisplayMessage(string val)
+    public IEnumerator DisplayPlayerMessage(string val)
     {
-        msg.text = val;
-        MsgBox.gameObject.SetActive(true);
+        playerMsg.text = val;
+        PlayerBox.gameObject.SetActive(true);
         yield return new WaitForSeconds(MsgTime);
-        MsgBox.gameObject.SetActive(false);
+        PlayerBox.gameObject.SetActive(false);
+        msgActive = false;
+    }
+
+    public IEnumerator DisplayDriverMsg(string val)
+    {
+        playerMsg.text = val;
+        DriverBox.gameObject.SetActive(true);
+        yield return new WaitForSeconds(MsgTime);
+        DriverBox.gameObject.SetActive(false);
         msgActive = false;
     }
 }
