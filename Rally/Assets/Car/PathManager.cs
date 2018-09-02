@@ -41,6 +41,7 @@ public class PathManager : MonoBehaviour
         pathGenerator.CubicHermiteSpline(Path.WorldToPath(start.Position), Path.QuaternionToTangent(start.Rotation, TANGENT_MAGNITUDE), Path.WorldToPath(end.Position), Path.QuaternionToTangent(end.Rotation, TANGENT_MAGNITUDE),
             out path.Points, out path.Tangents);
         path.GenerateAnglesFromTangents();
+        path.Miss = end.Miss;
         return path;
     }
 

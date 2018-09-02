@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public int MaxInputs { get; private set; }
 
     public Car playerCar;
+    public bool GamePlaying = false;
 
     public ActionType[] GetPlayerActions()
     {
@@ -40,8 +41,13 @@ public class Player : MonoBehaviour
 
     public ActionType GetNextAction()
     {
-        PlayerUI.Instance.DequeueAction();
-        return PlayerActions.Dequeue();
+        if (PlayerActions.Count == 0)
+            return ActionType.Straight;
+        else
+        {
+            PlayerUI.Instance.DequeueAction();
+            return PlayerActions.Dequeue();
+        }
     }
 
     private void Awake()
@@ -55,7 +61,20 @@ public class Player : MonoBehaviour
     private void Start()
     {
         MaxInputs = 5;
+        PlayerUI.Instance.FadeIn();
     }
+
+    public void BeginCountdown()
+    {
+        StartCoroutine(PlayerUI.Instance.BeginCountdown());
+    }
+
+    public void StartGame()
+    {
+        playerCar.BeginFollowPath();
+        GamePlaying = true;
+    }
+
 
     public void TEXT_DEQUEUE()
     {

@@ -32,21 +32,21 @@ public class RoadSegment : MonoBehaviour
     {
         Transform point = midPoints[Random.Range(0, 2)];
         //Transform point = midPoints[1];
-        return new Waypoint(point.position, point.rotation);
+        return new Waypoint(point.position, point.rotation, false);
     }
 
     public Waypoint GetRandomEndpoint()
     {
         Transform point = endPoints[Random.Range(0, 2)];
         //Transform point = endPoints[1];
-        return new Waypoint(point.position, point.rotation);
+        return new Waypoint(point.position, point.rotation, false);
     }
 
     public Waypoint CentreEndpoint
     {
         get
         {
-            return new Waypoint(endPoints[1].position, endPoints[1].rotation);
+            return new Waypoint(endPoints[1].position, endPoints[1].rotation, false);
         }
         private set { }
     }
@@ -55,7 +55,7 @@ public class RoadSegment : MonoBehaviour
     {
         get
         {
-            return new Waypoint(midPoints[1].position, midPoints[1].rotation);
+            return new Waypoint(midPoints[1].position, midPoints[1].rotation, false);
         }
         private set { }
     }
@@ -64,7 +64,7 @@ public class RoadSegment : MonoBehaviour
     {
         get
         {
-            return new Waypoint(midMissLeft.position, midMissLeft.rotation);
+            return new Waypoint(midMissLeft.position, midMissLeft.rotation, false);
         }
         private set { }
     }
@@ -73,7 +73,7 @@ public class RoadSegment : MonoBehaviour
     {
         get
         {
-            return new Waypoint(midMissRight.position, midMissRight.rotation);
+            return new Waypoint(midMissRight.position, midMissRight.rotation, false);
         }
         private set { }
     }
@@ -82,7 +82,7 @@ public class RoadSegment : MonoBehaviour
     {
         get
         {
-            return new Waypoint(missLeft.position, missLeft.rotation);
+            return new Waypoint(missLeft.position, missLeft.rotation, true);
         }
         private set { }
     }
@@ -91,7 +91,7 @@ public class RoadSegment : MonoBehaviour
     {
         get
         {
-            return new Waypoint(missRight.position, missRight.rotation);
+            return new Waypoint(missRight.position, missRight.rotation, true);
         }
         private set { }
     }

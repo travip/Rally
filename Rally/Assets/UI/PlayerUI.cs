@@ -9,6 +9,8 @@ public class PlayerUI : MonoBehaviour
 {
     public static PlayerUI Instance { get; private set; }
 
+    public Image fadeCover;
+
     // Turning UI
     [SerializeField]
     private Transform playerTurnInputList;
@@ -23,12 +25,18 @@ public class PlayerUI : MonoBehaviour
 
     private readonly Queue<TurnImage> turnImageQueue = new Queue<TurnImage>();
 
-    // Timer
-    private float time;
-    public TextMeshProUGUI timerText;
+    public bool started = false;
+    public bool GameOverScreen = false;
 
-	// Use this for initialization
-	void Awake () {
+    // Timer
+    public float time;
+    public TextMeshProUGUI timerText;
+    public TextMeshProUGUI missText;
+    public TextMeshProUGUI mainText;
+    public TextMeshProUGUI restartText;
+
+    // Use this for initialization
+    void Awake () {
         if (Instance == null)
             Instance = this;
         else
@@ -38,15 +46,70 @@ public class PlayerUI : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        time += Time.deltaTime;
-        UpdateTimer();
+        if (started)
+        {
+            time += Time.deltaTime;
+            UpdateTimer();
+        }
 
+    }
+
+    public void FadeIn()
+    {
+        StartCoroutine(StartFadeIn(0.5f));
+    }
+
+    private IEnumerator StartFadeIn(float transTime)
+    {
+        float elapsedTime = 0.0f;
+        Color c = Color.black;
+        while (elapsedTime < transTime)
+        {
+            c.a = Mathf.Lerp(1f, 0f, (elapsedTime / transTime));
+            fadeCover.color = c;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        Player.Instance.BeginCountdown();
+    }
+
+    public IEnumerator BeginCountdown()
+    {
+        GameOverScreen = false;
+        restartText.gameObject.SetActive(false);
+        mainText.text = "Ready";
+        yield return new WaitForSeconds(2);
+        mainText.text = "3";
+        yield return new WaitForSeconds(1);
+        mainText.text = "2";
+        yield return new WaitForSeconds(1);
+        mainText.text = "1";
+        yield return new WaitForSeconds(1);
+        mainText.text = "GO!";
+        Player.Instance.StartGame();
+        yield return new WaitForSeconds(1);
+        mainText.gameObject.SetActive(false);
+        started = true;
+    }
+
+    public void DisplayGameOver()
+    {
+        mainText.text = "CRASHED!";
+        mainText.gameObject.SetActive(true);
+        started = false;
+        restartText.gameObject.SetActive(true);
+        GameOverScreen = true;
     }
 
     private void UpdateTimer()
     {
         TimeSpan timeSpan = TimeSpan.FromSeconds(time);
         timerText.text = string.Format("{0:D2}:{1:D2}.{2:D1}", timeSpan.Minutes, timeSpan.Seconds, Mathf.FloorToInt(timeSpan.Milliseconds/100));
+    }
+
+    public void SetMisses(int misses)
+    {
+        missText.text = misses.ToString(); ;
     }
 
     public void DequeueAction()

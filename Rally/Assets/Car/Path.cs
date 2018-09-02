@@ -5,6 +5,7 @@ using UnityEngine;
 public class Path
 {
     public const int NumPoints = 20;
+    public bool Miss;
 
     public Vector2 StartPoint;
     public float StartAngle;
@@ -31,7 +32,7 @@ public class Path
 
     public static Vector3 PathToWorld(Vector2 vec)
     {
-        return new Vector3(vec.x, 0f, vec.y);
+        return new Vector3(vec.x, Car.CAR_Y_OFFSET, vec.y);
     }
 
     public static Vector2 QuaternionToTangent(Quaternion quart, float mag)

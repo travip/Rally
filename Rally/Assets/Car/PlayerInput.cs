@@ -31,21 +31,31 @@ public class PlayerInput : MonoBehaviour
         else
             Destroy(this);
 	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
-        if (Player.Instance.NumActionsQueued() >= 5)
-            return;
-        timeSinceLastPress += Time.deltaTime;
-        if (timeSinceLastPress > maxTimeBetweenPresses && seqKeyPresses > 0)
-            FinalInput();
-        if (Input.GetKeyDown(leftKey))
-            TurnKeyPressed(Inputs.Left);
-        else if (Input.GetKeyDown(rightKey))
-            TurnKeyPressed(Inputs.Right);
-        else if (Input.GetKeyDown(confirmKey))
-            ConfirmKeyPressed();
+        if (Player.Instance.GamePlaying)
+        {
+            if (Player.Instance.NumActionsQueued() >= 5)
+                return;
+            timeSinceLastPress += Time.deltaTime;
+            if (timeSinceLastPress > maxTimeBetweenPresses && seqKeyPresses > 0)
+                FinalInput();
+            if (Input.GetKeyDown(leftKey))
+                TurnKeyPressed(Inputs.Left);
+            else if (Input.GetKeyDown(rightKey))
+                TurnKeyPressed(Inputs.Right);
+            else if (Input.GetKeyDown(confirmKey))
+                ConfirmKeyPressed();
+        }
+        else if (PlayerUI.Instance.GameOverScreen)
+        {
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                Player.Instance.playerCar.RestartGame();
+            }
+        }
 	}
 
     private void TurnKeyPressed(Inputs input)

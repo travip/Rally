@@ -5,17 +5,23 @@ using UnityEngine;
 public class Car : MonoBehaviour
 {
     public const float PATH_TIME = 1f;
+    public const float CAR_Y_OFFSET = 0.66f;
+
 	public Player player;
+    public Rigidbody rb;
+    public BoxCollider col;
 
     private bool isMoving = false;
+    public int Misses = 0;
+    private bool Crashed = false;
 
     // Unprocessed Waypoints
-    private readonly Queue<Waypoint> Waypoints = new Queue<Waypoint>();
+    private Queue<Waypoint> Waypoints = new Queue<Waypoint>();
 
     // Processed paths (waiting to be executed)
-    private readonly Queue<Path> Paths = new Queue<Path>();
+    private Queue<Path> Paths = new Queue<Path>();
 
-    private readonly Queue<Waypoint> UnvisitedWaypoints = new Queue<Waypoint>();
+    private Queue<Waypoint> UnvisitedWaypoints = new Queue<Waypoint>();
 
     // Road Segments WITHOUT an associated Player Input
     // Once a input is received, pop the next road segment and generate waypoints
@@ -37,8 +43,8 @@ public class Car : MonoBehaviour
         else if (other.CompareTag("Turn"))
         {
             Debug.Log("Trigger enter TURN");
-            Player.Instance.GetNextAction();
             other.GetComponent<BoxCollider>().enabled = false;
+            Player.Instance.GetNextAction();
         }
     }
 
@@ -51,32 +57,50 @@ public class Car : MonoBehaviour
                 UnprossedRoads.Enqueue(t.GetComponent<RoadSegment>());
             }
         }
+        LastWaypoint = new Waypoint(transform.position, transform.rotation, false);
+        ProcessNextRoadAsStraight();
+        BuildAllPaths();
     }
 
-    // First road should always be straight
-    public void Begin()
+    public void RestartGame()
     {
-        if(UnprossedRoads.Count == 0)
+        Waypoints = new Queue<Waypoint>();
+        Paths = new Queue<Path>();
+        UnvisitedWaypoints = new Queue<Waypoint>();
+        UnprossedRoads = new Queue<RoadSegment>();
+
+        rb.isKinematic = true;
+        transform.SetPositionAndRotation(new Vector3(0f, CAR_Y_OFFSET, 0f), Quaternion.identity);
+        LastWaypoint = new Waypoint(transform.position, transform.rotation, false);
+        isMoving = false;
+        Crashed = false;
+        Misses = 0;
+        PlayerUI.Instance.time = 0f;
+
+        if (DEBUG_GetRoads)
         {
-            Debug.Log("BEGIN FAILED, no starting road?");
+            foreach (Transform t in RoadsContainer)
+            {
+                UnprossedRoads.Enqueue(t.GetComponent<RoadSegment>());
+            }
         }
-        else
+        ProcessNextRoadAsStraight();
+        BuildAllPaths();
+        Player.Instance.BeginCountdown();
+    }
+
+    public void PathMissed()
+    {
+        if(++Misses == 3)
         {
-            RoadSegment road = UnprossedRoads.Dequeue();
-            Waypoints.Enqueue(road.CentreMidpoint);
-            Waypoints.Enqueue(road.CentreEndpoint);
-            BuildAllPaths();
+            Crashed = true;
+            StopAllCoroutines();
+            PlayerUI.Instance.DisplayGameOver();
+            rb.isKinematic = false;
+            rb.AddExplosionForce(1000f, -transform.forward * 0.5f, 2f);
+            Player.Instance.GamePlaying = false;
         }
-    }
-
-    public void OnReachNewTurn()
-    {
-        Player.Instance.GetNextAction();
-    }
-
-    private void NoInputNextSection()
-    {
-
+        PlayerUI.Instance.SetMisses(Misses);
     }
 
     private void ProcessNextTurn(Player.ActionType action)
@@ -108,7 +132,36 @@ public class Car : MonoBehaviour
                 Waypoints.Enqueue(road.MissRight);
             }
             // MISS LEFT
-            else if (diff < -0)
+            else if (diff < 0)
+            {
+                Debug.Log("MISS LEFT");
+                Waypoints.Enqueue(road.MidMissLeft);
+                Waypoints.Enqueue(road.MissLeft);
+            }
+        }
+    }
+
+    public void ProcessNextRoadAsStraight()
+    {
+        Debug.Log("Process");
+        RoadSegment road = UnprossedRoads.Dequeue();
+        if (road.RoadType == Player.ActionType.Straight)
+        {
+            Waypoints.Enqueue(road.GetRandomMidpoint());
+            Waypoints.Enqueue(road.GetRandomEndpoint());
+        }
+        else
+        {
+            int diff = Player.ActionType.Straight - road.RoadType;
+            // MISS RIGHT
+            if (diff > 0)
+            {
+                Debug.Log("MISS RIGHT");
+                Waypoints.Enqueue(road.MidMissRight);
+                Waypoints.Enqueue(road.MissRight);
+            }
+            // MISS LEFT
+            else if (diff < 0)
             {
                 Debug.Log("MISS LEFT");
                 Waypoints.Enqueue(road.MidMissLeft);
@@ -121,8 +174,6 @@ public class Car : MonoBehaviour
     {
         ProcessNextTurn(action);
         BuildAllPaths();
-        if (!isMoving)
-            BeginFollowPath();
     }
 
     public void BuildAllPaths()
@@ -147,17 +198,22 @@ public class Car : MonoBehaviour
         {
             Debug.Log("BeginFollowPath");
             Path path = Paths.Dequeue();
-            StartCoroutine(FollowPath(path, PATH_TIME / Path.NumPoints));
+            if(path.Miss)
+                PathMissed();
+            if(!Crashed)
+                StartCoroutine(FollowPath(path, PATH_TIME / Path.NumPoints));
         }
         else
         {
-            Debug.Log("Begin follow path with no paths available");
+            ProcessNextRoadAsStraight();
+            BuildAllPaths();
+            BeginFollowPath();
+            Debug.Log("Automatically generate straight path");
         }
     }
 
     private IEnumerator FollowPath(Path path, float pathTime)
     {
-        isMoving = true;
         for (int i = 0; i < Path.NumPoints - 1; i++)
         {
             float elapsedTime = 0f;
@@ -169,7 +225,7 @@ public class Car : MonoBehaviour
                 yield return null; 
             }
         }
-        isMoving = false;
+        Debug.Log("done following path");
         BeginFollowPath();
     }
 }
@@ -178,6 +234,8 @@ public struct Waypoint
 {
     public Vector3 Position;
     public Quaternion Rotation;
+
+    public bool Miss;
 
     public float Angle
     {
@@ -188,9 +246,10 @@ public struct Waypoint
         private set { }
     }
 
-    public Waypoint(Vector3 pos, Quaternion rot)
+    public Waypoint(Vector3 pos, Quaternion rot, bool m)
     {
         Position = pos;
         Rotation = rot;
+        Miss = m;
     }
 }
