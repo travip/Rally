@@ -75,8 +75,8 @@ public class RoadGenerator : MonoBehaviour {
 		for (int i = 0; i < AllRoadPrefabs.Length; i++) {
 			RoadPrefabs.Add(AllRoadPrefabs[i]);
 		}
-		
 
+		bool testthing = false;
 		bool found = false;
 		int random = 0;
 		int sanityBreaker = 100;
@@ -86,7 +86,8 @@ public class RoadGenerator : MonoBehaviour {
 				Debug.Log("Breaking out beacuse we reached sanity breaker!");
 				break;
 			}
-			if (RoadPrefabs.Count == 0) {
+			//if (currentRoads.Count >= 30) testthing = true;
+			if (RoadPrefabs.Count == 0 || testthing) {
 				// Failed to make a valid road. Lets delete the last few and try again from there.
 				if (currentRoads.Count - numToRemove == lastRemovedAt) {
 					numToRemove += 5;
@@ -99,15 +100,33 @@ public class RoadGenerator : MonoBehaviour {
 				Debug.Log("");
 
 				for (int i = 1; i <= numToRemove; i++) {
+					Transform t = currentRoads[currentRoads.Count - 1];
+					Debug.Log("Deleting Road " + t.gameObject.name);
+					Destroy(t.gameObject);
 					currentRoads.RemoveAt(currentRoads.Count - 1);
 				}
 				//for (int i = 0; i < RoadPrefabs.Count; i++) {
 				//	nums.Add(i);
 				//}
+
+				
 				for (int i = 0; i < AllRoadPrefabs.Length; i++) {
 					RoadPrefabs.Add(AllRoadPrefabs[i]);
 				}
 				lastRemovedAt = currentRoads.Count;
+
+				///////////////////////////////////////////
+				// DUPLICATED CODE FROM ABOVE HOORAY
+				lastEnd = GetEndNode(currentRoads[currentRoads.Count - 1]);
+
+				// Get a list of roads that are close enough to check. Dont check the last road, we cant collide with that
+				for (int i = 0; i < currentRoads.Count - 1; i++) {
+					if (Vector3.Distance(lastEnd.position, currentRoads[i].position) <= closeEnough) {
+						closeRoads.Add(currentRoads[i]);
+					}
+				}
+				// DUPLICATED CODE FROM ABOVE HOORAY
+				///////////////////////////////////////////
 			}
 
 			float randomWeight = Random.Range(0.0f, 1.0f); // 0.5
