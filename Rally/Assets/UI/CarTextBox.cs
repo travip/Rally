@@ -20,6 +20,12 @@ public class CarTextBox : MonoBehaviour
     public TextMeshProUGUI driverMsg;
     public TextMeshProUGUI playerMsg;
 
+    public Image PlayerArrowBox;
+    public Image PlayerInnerArrowBox;
+    public Image PlayerArrow;
+
+    public List<Sprite> arrowSprites;
+
     public Conversation Debug1;
     public Conversation debug2;
 
@@ -29,18 +35,21 @@ public class CarTextBox : MonoBehaviour
     private bool msgActive;
     private bool isConversing = false;
 
-    public List<Conversation[]> startMsgs = new List<Conversation[]>();
-    public List<Conversation[]> successMsgs = new List<Conversation[]>();
-    public List<Conversation[]> missMsgs = new List<Conversation[]>();
-    public List<Conversation[]> crashMsgs = new List<Conversation[]>();
+    public Conversation[] startMsgs1;
+    public Conversation[] startMsgs2;
+    public Conversation[] startMsgs3;
 
-    public List<Conversation[]> leftTurnMsgs = new List<Conversation[]>();
-    public List<Conversation[]> leftSquareMsgs = new List<Conversation[]>();
-    public List<Conversation[]> leftAcuteMsgs = new List<Conversation[]>();
+    public Conversation[] successMsgs1;
+    public Conversation[] successMsgs2;
+    public Conversation[] successMsgs3;
 
-    public List<Conversation[]> rightTurnMsgs = new List<Conversation[]>();
-    public List<Conversation[]> rightSquareMsgs = new List<Conversation[]>();
-    public List<Conversation[]> rightAcuteMsgs = new List<Conversation[]>();
+    public Conversation[] missMsgs1;
+    public Conversation[] missMsgs2;
+    public Conversation[] missMsgs3;
+
+    public Conversation[] crashMsgs1;
+    public Conversation[] crashMsgs2;
+    public Conversation[] crashMsgs3;
 
     [System.Serializable]
     public struct Conversation
@@ -58,27 +67,80 @@ public class CarTextBox : MonoBehaviour
         }
     }
 
+    public void DisplayStartMessage()
+    {
+        if (!isConversing)
+            StartCoroutine(Converse(startMsgs1));
+    }
+
     public void DisplayCrashMessage()
     {
         if(!isConversing)
-            StartCoroutine(Converse(crashMsgs[0]));
+            StartCoroutine(Converse(crashMsgs1));
     }
 
     public void DisplayMissMessage()
     {
         if (!isConversing)
-            StartCoroutine(Converse(missMsgs[0]));
+            StartCoroutine(Converse(missMsgs2));
     }
 
     public void DisplaySuccessMessage()
     {
         if (!isConversing)
-            StartCoroutine(Converse(successMsgs[0]));
+            StartCoroutine(Converse(successMsgs1));
     }
 
-    public void TESTCONVERSE()
+    public void TESTACTION()
     {
-        StartCoroutine(Converse( new Conversation[] { Debug1, debug2 }));
+        StartCoroutine(DisplayAction( Player.ActionType.LeftTurn, true));
+    }
+
+    public IEnumerator DisplayAction(Player.ActionType action, bool correct)
+    {
+        isConversing = true;
+        PlayerArrow.sprite = arrowSprites[(int)action];
+        if (correct)
+            PlayerArrow.color = Color.green;
+        else
+            PlayerArrow.color = Color.red;
+
+        PlayerArrowBox.gameObject.SetActive(true);
+        // Fade In
+        float elapsedTime = 0f;
+        while (elapsedTime < FadeTime)
+        {
+            Color arrowColor = PlayerArrow.color;
+            Color black = new Color(0f, 0f, 0f, Mathf.Lerp(0f, 0.5f, (elapsedTime / FadeTime)));
+            Color white = new Color(1f, 1f, 1f, Mathf.Lerp(0f, 0.5f, (elapsedTime / FadeTime)));
+            arrowColor.a = Mathf.Lerp(0f, 1f, (elapsedTime / FadeTime));
+            PlayerArrow.color = arrowColor;
+            PlayerArrowBox.color = black;
+            PlayerInnerArrowBox.color = white;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(MsgTime);
+        if (!correct)
+            StartCoroutine(DisplayDriverMsg("That wasn't right.."));
+
+        // Fade Out
+        elapsedTime = 0f;
+        while (elapsedTime < FadeTime)
+        {
+            Color arrowColor = PlayerArrow.color;
+            Color black = new Color(0f, 0f, 0f, Mathf.Lerp(0.5f, 0f, (elapsedTime / FadeTime)));
+            Color white = new Color(1f, 1f, 1f, Mathf.Lerp(0.5f, 0f, (elapsedTime / FadeTime)));
+            arrowColor.a = Mathf.Lerp(1f, 0f, (elapsedTime / FadeTime));
+            PlayerArrow.color = arrowColor;
+            PlayerArrowBox.color = black;
+            PlayerInnerArrowBox.color = white;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        PlayerArrowBox.gameObject.SetActive(false);
+        isConversing = false;
     }
 
     public IEnumerator Converse(Conversation[] msgs)

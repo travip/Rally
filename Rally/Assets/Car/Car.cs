@@ -65,7 +65,7 @@ public class Car : MonoBehaviour
         InitialPopulateRoads();
         ProcessNextRoadAsStraight();
         BuildAllPaths();
-        carMsg.TESTCONVERSE();
+        carMsg.TESTACTION();
     }
 
     private void InitialPopulateRoads()
