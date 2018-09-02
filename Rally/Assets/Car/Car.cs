@@ -47,14 +47,16 @@ public class Car : MonoBehaviour
         {
             Debug.Log("Trigger enter STRAIGHT");
             other.GetComponent<BoxCollider>().enabled = false;
-			other.GetComponent<RoadSegment>().nextSegment.GetComponent<BoxCollider>().enabled = true;
+            other.GetComponent<RoadSegment>().nextSegment.GetComponent<BoxCollider>().enabled = true;
 		}
         else if (other.CompareTag("Turn"))
         {
             Debug.Log("Trigger enter TURN");
+            RoadSegment rSeg = other.GetComponent<RoadSegment>();
             other.GetComponent<BoxCollider>().enabled = false;
-			other.GetComponent<RoadSegment>().nextSegment.GetComponent<BoxCollider>().enabled = true;
+            rSeg.nextSegment.GetComponent<BoxCollider>().enabled = true;
 			Player.Instance.GetNextAction();
+            carMsg.DisplayActionFromRoad(rSeg);
         }
     }
 
@@ -123,11 +125,12 @@ public class Car : MonoBehaviour
         {
             Waypoints.Enqueue(road.GetRandomMidpoint());
             Waypoints.Enqueue(road.GetRandomEndpoint());
-            Debug.Log("You did gud");
+            road.wasCorrect = true;
         }
         // Incorrect input, get degree of failure
         else
         {
+            road.wasCorrect = false;
             int diff = action - road.RoadType;
             // MISS RIGHT
             if (diff > 0)
@@ -214,7 +217,6 @@ public class Car : MonoBehaviour
         Waypoint NextWaypoint = Waypoints.Dequeue();
         Path p = PathManager.Instance.GeneratePath(LastWaypoint, NextWaypoint);
         LastWaypoint = NextWaypoint;
-        //PathManager.Instance.VisualizePath(p);
         Paths.Enqueue(p);
         UnvisitedWaypoints.Enqueue(LastWaypoint);
     }
@@ -223,7 +225,6 @@ public class Car : MonoBehaviour
     {
         if (Paths.Count > 0)
         {
-            Debug.Log("BeginFollowPath");
             Path path = Paths.Dequeue();
             if(path.Miss)
                 PathMissed();
@@ -252,7 +253,6 @@ public class Car : MonoBehaviour
                 yield return null; 
             }
         }
-        Debug.Log("done following path");
         BeginFollowPath();
     }
 }

@@ -107,16 +107,16 @@ public class CarTextBox : MonoBehaviour
             StartCoroutine(Converse(successMsgs1));
     }
 
-    public void TESTACTION()
+    public void DisplayActionFromRoad(RoadSegment road)
     {
-        StartCoroutine(DisplayAction( Player.ActionType.LeftTurn, true));
+        StartCoroutine(DisplayAction(road));
     }
 
-    public IEnumerator DisplayAction(Player.ActionType action, bool correct)
+    public IEnumerator DisplayAction(RoadSegment road)
     {
         isConversing = true;
-        PlayerArrow.sprite = arrowSprites[(int)action];
-        if (correct)
+        PlayerArrow.sprite = arrowSprites[(int)road.RoadType];
+        if (road.wasCorrect)
             PlayerArrow.color = Color.green;
         else
             PlayerArrow.color = Color.red;
@@ -138,7 +138,7 @@ public class CarTextBox : MonoBehaviour
         }
 
         yield return new WaitForSeconds(MsgTime);
-        if (!correct)
+        if (!road.wasCorrect)
             StartCoroutine(DisplayDriverMsg("That wasn't right.."));
 
         // Fade Out
