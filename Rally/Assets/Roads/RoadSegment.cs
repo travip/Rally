@@ -20,6 +20,9 @@ public class RoadSegment : MonoBehaviour
     public Transform RoadCentre;
     public List<BoxCollider> NoTreeZones;
 
+	public Color highlightTint;
+	private Color previousTint;
+
     public Vector3 GetEndConnector()
     {
         return endPoints[2].position;
@@ -98,4 +101,14 @@ public class RoadSegment : MonoBehaviour
         }
         private set { }
     }
+
+	public void HighLight() {
+		Material mat = transform.Find("model").GetChild(0).GetComponent<Renderer>().material;
+		previousTint = mat.color;
+		mat.color = highlightTint;
+	}
+
+	public void UnHighLight() {
+		transform.Find("model").GetChild(0).GetComponent<Renderer>().material.color = previousTint;
+	}
 }

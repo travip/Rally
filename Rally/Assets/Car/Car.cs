@@ -39,6 +39,8 @@ public class Car : MonoBehaviour
 
     private Waypoint LastWaypoint;
 
+	private RoadSegment prevRoad;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Straight"))
@@ -140,7 +142,9 @@ public class Car : MonoBehaviour
             }
         }
         EnteredNewRoad();
-    }
+
+		HighlightNextRoad();
+	}
 
     public void ProcessNextRoadAsStraight()
     {
@@ -169,7 +173,26 @@ public class Car : MonoBehaviour
                 Waypoints.Enqueue(road.MissLeft);
             }
         }
-    }
+
+		HighlightNextRoad();
+	}
+
+	private void HighlightNextRoad() {
+		// Find the next turn and highlight it (but don't process it)
+		if (prevRoad != null) {
+			prevRoad.UnHighLight();
+		}
+		RoadSegment road = UnprossedRoads.Peek();
+		while (road.RoadType == Player.ActionType.Straight) {
+			Waypoints.Enqueue(road.GetRandomMidpoint());
+			Waypoints.Enqueue(road.GetRandomEndpoint());
+			UnprossedRoads.Dequeue();
+			EnteredNewRoad();
+			road = UnprossedRoads.Peek();
+		}
+		road.HighLight();
+		prevRoad = road;
+	}
 
     public void OnPlayerInput(Player.ActionType action)
     {
