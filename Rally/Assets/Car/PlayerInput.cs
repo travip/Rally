@@ -12,6 +12,8 @@ public class PlayerInput : MonoBehaviour
     private enum Inputs { Left, Right, Forward }
     private Inputs lastPressed;
 
+    private bool canInput = true;
+
     private float timeSinceLastPress = 0;
     private float maxTimeBetweenPresses = 0.3f;
 
@@ -77,6 +79,13 @@ public class PlayerInput : MonoBehaviour
         FinalInput();
     }
 
+    private IEnumerator PreventInput()
+    {
+        canInput = false;
+        yield return new WaitForSeconds(0.1f);
+        canInput = true;
+    }
+
     private void FinalInput()
     {
         if (lastPressed == Inputs.Right)
@@ -97,6 +106,7 @@ public class PlayerInput : MonoBehaviour
                     break;
                 case 4:
                     Player.Instance.PlayerInput(Player.ActionType.RightAcute);
+                    PreventInput();
                     break;
             }
         }
@@ -118,6 +128,7 @@ public class PlayerInput : MonoBehaviour
                     break;
                 case 4:
                     Player.Instance.PlayerInput(Player.ActionType.LeftAcute);
+                    PreventInput();
                     break;
             }
         }

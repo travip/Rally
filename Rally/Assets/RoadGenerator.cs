@@ -12,7 +12,9 @@ public class RoadGenerator : MonoBehaviour {
 
 	public WeightedRoad[] AllRoadPrefabs;
 
-	public int roadsAhead = 5;
+    public GameObject straightRoadPrefab;
+
+    public int roadsAhead = 5;
 	public float castForward = 50f;
 	public float closeEnough = 10f;
 	public float tooClose = 5f;
@@ -21,18 +23,12 @@ public class RoadGenerator : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 
 		// Calculate road weights as a percentage
 		ReCalculateWeights(AllRoadPrefabs);
-
-		System.Array.Sort<WeightedRoad>(AllRoadPrefabs, (x, y) => x.weight.CompareTo(y.weight));
-
+        System.Array.Sort<WeightedRoad>(AllRoadPrefabs, (x, y) => x.weight.CompareTo(y.weight));
 		currentRoads = new List<Transform>();
-		currentRoads.Add(Instantiate(AllRoadPrefabs[0].prefab, transform).transform);
-		for (int i = 0; i < roadsAhead; i++) {
-			GenerateNextRoad();
-		}
 	}	
 
 	void ReCalculateWeights (WeightedRoad[] roads) {
@@ -45,10 +41,21 @@ public class RoadGenerator : MonoBehaviour {
 		}
 	}
 
+    public List<RoadSegment> AddNewRoadSection()
+    {
+        List<RoadSegment> newSegments = new List<RoadSegment>();
+        GameObject newRoad = Instantiate(straightRoadPrefab, transform);
+        currentRoads.Add(Instantiate(straightRoadPrefab, transform).transform);
+        newSegments.Add(newRoad.GetComponent<RoadSegment>());
+        for (int i = 0; i < roadsAhead; i++)
+            newSegments.Add(GenerateNextRoad());
+        return newSegments;
+    }
+
 	int startToRemove = 10;
 	int numToRemove = 10;
 	int lastRemovedAt = 0;
-	public void GenerateNextRoad() {
+	public RoadSegment GenerateNextRoad() {
 		Transform lastEnd = GetEndNode(currentRoads[currentRoads.Count - 1]);
 
 		// Get a list of roads that are close enough to check. Dont check the last road, we cant collide with that
@@ -199,6 +206,7 @@ public class RoadGenerator : MonoBehaviour {
 		newRoad.name = currentRoads.Count + " " + AllRoadPrefabs[random].prefab;
 		Debug.Log("!!!!!! Instantiating: " + newRoad.name);
 		currentRoads.Add(newRoad.transform);
+        return newRoad.GetComponent<RoadSegment>();
 	}
 
 	Transform GetEndNode(Transform road) {

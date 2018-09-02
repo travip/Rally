@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -451,6 +451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1009143275}
   followLag: 0.26
+  rotateLag: 0
 --- !u!1 &699068174
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,7 +1014,9 @@ MonoBehaviour:
     weight: 3
   - prefab: {fileID: 1800138152665662, guid: 4e3a1167127d7ed43bbc88d9cad1f64f, type: 2}
     weight: 1
-  roadsAhead: 100
+  straightRoadPrefab: {fileID: 1917883504400712, guid: 98672c2d5486baa489cb312d18f79b4d,
+    type: 2}
+  roadsAhead: 30
   castForward: 10
   closeEnough: 40
   tooClose: 10

@@ -11,6 +11,7 @@ public class Car : MonoBehaviour
     public Rigidbody rb;
     public BoxCollider col;
     public CarTextBox carMsg;
+    public RoadGenerator roadGenerator;
 
     private bool isMoving = false;
     public int Misses = 0;
@@ -53,14 +54,10 @@ public class Car : MonoBehaviour
 
     void Start ()
     {
-        if(DEBUG_GetRoads)
-        {
-            foreach(Transform t in RoadsContainer)
-            {
-                UnprossedRoads.Enqueue(t.GetComponent<RoadSegment>());
-            }
-        }
         LastWaypoint = new Waypoint(transform.position, transform.rotation, false);
+        roadGenerator.AddNewRoadSection().ForEach(
+            r => UnprossedRoads.Enqueue(r)
+        );
         ProcessNextRoadAsStraight();
         BuildAllPaths();
     }
@@ -80,13 +77,15 @@ public class Car : MonoBehaviour
         Misses = 0;
         PlayerUI.Instance.time = 0f;
 
-        if (DEBUG_GetRoads)
+        // Destroy all current roads
+        foreach(Transform t in roadGenerator.transform)
         {
-            foreach (Transform t in RoadsContainer)
-            {
-                UnprossedRoads.Enqueue(t.GetComponent<RoadSegment>());
-            }
+            Destroy(t.gameObject);
         }
+        // Build new roads
+        roadGenerator.AddNewRoadSection().ForEach(
+            r => UnprossedRoads.Enqueue(r)
+        );
         ProcessNextRoadAsStraight();
         BuildAllPaths();
         Player.Instance.BeginCountdown();
@@ -145,11 +144,16 @@ public class Car : MonoBehaviour
                 Waypoints.Enqueue(road.MissLeft);
             }
         }
+        if(UnprossedRoads.Count <= 20)
+        {
+            roadGenerator.AddNewRoadSection().ForEach(
+                r => UnprossedRoads.Enqueue(r)
+            );
+        }
     }
 
     public void ProcessNextRoadAsStraight()
     {
-        Debug.Log("Process");
         RoadSegment road = UnprossedRoads.Dequeue();
         if (road.RoadType == Player.ActionType.Straight)
         {
@@ -173,6 +177,12 @@ public class Car : MonoBehaviour
                 Waypoints.Enqueue(road.MidMissLeft);
                 Waypoints.Enqueue(road.MissLeft);
             }
+        }
+        if (UnprossedRoads.Count <= 20)
+        {
+            roadGenerator.AddNewRoadSection().ForEach(
+                r => UnprossedRoads.Enqueue(r)
+            );
         }
     }
 
