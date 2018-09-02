@@ -232,9 +232,12 @@ public class Car : MonoBehaviour
         if (Paths.Count > 0)
         {
             Path path = Paths.Dequeue();
-            if(path.Miss)
-                PathMissed();
-            if(!Crashed)
+			if (path.Miss)
+				PathMissed();
+			else
+				PlayerUI.Instance.AddScore();
+
+			if (!Crashed)
                 StartCoroutine(FollowPath(path, PATH_TIME / Path.NumPoints));
         }
         else
