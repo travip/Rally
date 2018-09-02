@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1719,12 +1719,8 @@ MonoBehaviour:
   - msg: I'm not the one making the mistakes!
     isPlayer: 0
   missMsgs3:
-  - msg: Far out
-    isPlayer: 0
-  - msg: You couldn't navigate yourself out of your own home
-    isPlayer: 0
-  - msg: 
-    isPlayer: 0
+  - msg: Sammy you are breaking the car!
+    isPlayer: 1
   crashMsgs1:
   - msg: You are breaking the car!
     isPlayer: 1

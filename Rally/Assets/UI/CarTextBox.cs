@@ -112,12 +112,13 @@ public class CarTextBox : MonoBehaviour
 
     public void DisplayActionFromRoad(RoadSegment road)
     {
+        if (!road.wasCorrect)
+            DisplayMissMessage();
         StartCoroutine(DisplayAction(road));
     }
 
     public IEnumerator DisplayAction(RoadSegment road)
     {
-        isConversing = true;
         PlayerArrow.sprite = arrowSprites[(int)road.RoadType];
 		
 		if (road.wasCorrect)
@@ -146,8 +147,6 @@ public class CarTextBox : MonoBehaviour
         }
 
         yield return new WaitForSeconds(MsgTime);
-        if (!road.wasCorrect)
-            StartCoroutine(DisplayDriverMsg("That wasn't right.."));
 
         // Fade Out
         elapsedTime = 0f;
@@ -165,7 +164,6 @@ public class CarTextBox : MonoBehaviour
         }
         PlayerArrowBox.gameObject.SetActive(false);
 		PlayerArrowBoxWrong.gameObject.SetActive(false);
-		isConversing = false;
     }
 
     public IEnumerator Converse(Conversation[] msgs)
