@@ -451,6 +451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1009143275}
   followLag: 0.26
+  rotateLag: 0
 --- !u!1 &699068174
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +1004,7 @@ MonoBehaviour:
     weight: 4
   - prefab: {fileID: 1523226724589314, guid: 0bc942dc5e58474419e196ca2e744496, type: 2}
     weight: 3
-  - prefab: {fileID: 1800138152665662, guid: 37a969a1acdcae447a5cfb61f16d77f2, type: 2}
+  - prefab: {fileID: 1410139385250544, guid: 1dacc7fa038a0284a8de50f6731530c9, type: 2}
     weight: 1
   - prefab: {fileID: 1164866113699380, guid: bb6e78be16e934f47bb42c7fa845923e, type: 2}
     weight: 5
@@ -1011,7 +1012,7 @@ MonoBehaviour:
     weight: 4
   - prefab: {fileID: 1523226724589314, guid: d18325e870e4aee43b15feb2a3c0637f, type: 2}
     weight: 3
-  - prefab: {fileID: 1800138152665662, guid: 4e3a1167127d7ed43bbc88d9cad1f64f, type: 2}
+  - prefab: {fileID: 1739554523694872, guid: 2adcf17282e397b499cec30b4868e3dc, type: 2}
     weight: 1
   roadsAhead: 100
   castForward: 10
