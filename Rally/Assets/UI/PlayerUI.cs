@@ -30,15 +30,18 @@ public class PlayerUI : MonoBehaviour
     public bool started = false;
     public bool GameOverScreen = false;
 
-    // Timer
-    public float time;
-    public TextMeshProUGUI timerText;
-    public TextMeshProUGUI missText;
+	// Timer
+	//public float time;
+	//public TextMeshProUGUI timerText;
+	public int Score = 0;
+	public TextMeshProUGUI scoreText;
+	public TextMeshProUGUI missText;
     public TextMeshProUGUI mainText;
     public TextMeshProUGUI restartText;
-
-    // Use this for initialization
-    void Awake () {
+	public TextMeshProUGUI endScoreText;
+	public TextMeshProUGUI endScoreLabel;
+	// Use this for initialization
+	void Awake () {
         if (Instance == null)
             Instance = this;
         else
@@ -46,15 +49,15 @@ public class PlayerUI : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update ()
-    {
-        if (started)
-        {
-            time += Time.deltaTime;
-            UpdateTimer();
-        }
+	//void Update ()
+ //   {
+ //       if (started)
+ //       {
+ //           time += Time.deltaTime;
+ //           UpdateTimer();
+ //       }
 
-    }
+ //   }
 
     public void FadeIn()
     {
@@ -98,7 +101,11 @@ public class PlayerUI : MonoBehaviour
     {
         GameOverScreen = false;
         restartText.gameObject.SetActive(false);
-        mainText.text = "Ready";
+		endScoreText.gameObject.SetActive(false);
+		endScoreLabel.gameObject.SetActive(false);
+		scoreText.gameObject.SetActive(true);
+
+		mainText.text = "Ready";
         yield return new WaitForSeconds(1.5f);
         mainText.text = "3";
         yield return new WaitForSeconds(0.5f);
@@ -118,19 +125,30 @@ public class PlayerUI : MonoBehaviour
         mainText.text = "CRASHED!";
         mainText.gameObject.SetActive(true);
         started = false;
-        restartText.gameObject.SetActive(true);
-        GameOverScreen = true;
+
+		endScoreText.text = Score.ToString();
+		restartText.gameObject.SetActive(true);
+		endScoreText.gameObject.SetActive(true);
+		endScoreLabel.gameObject.SetActive(true);
+		scoreText.gameObject.SetActive(false);
+
+		GameOverScreen = true;
     }
 
-    private void UpdateTimer()
-    {
-        TimeSpan timeSpan = TimeSpan.FromSeconds(time);
-        timerText.text = string.Format("{0:D2}:{1:D2}.{2:D1}", timeSpan.Minutes, timeSpan.Seconds, Mathf.FloorToInt(timeSpan.Milliseconds/100));
-    }
+	//private void UpdateTimer()
+	//{
+	//    TimeSpan timeSpan = TimeSpan.FromSeconds(time);
+	//    timerText.text = string.Format("{0:D2}:{1:D2}.{2:D1}", timeSpan.Minutes, timeSpan.Seconds, Mathf.FloorToInt(timeSpan.Milliseconds/100));
+	//}
 
-    public void SetMisses(int misses)
+	public void AddScore () {
+		Score += 1;
+		scoreText.text = Score.ToString();
+	}
+
+	public void SetMisses(int misses)
     {
-        missText.text = (3 - misses).ToString(); ;
+        missText.text = (3 - misses).ToString();
     }
 
     public void DequeueAction()
