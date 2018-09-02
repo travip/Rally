@@ -125,13 +125,14 @@ public class Car : MonoBehaviour
             EnteredNewRoad();
         }
 
-        // Process the actual turn
-        if (action == road.RoadType)
+		// Process the actual turn
+		road.enteredType = action;
+		if (action == road.RoadType)
         {
             Waypoints.Enqueue(road.GetRandomMidpoint());
             Waypoints.Enqueue(road.GetRandomEndpoint());
             road.wasCorrect = true;
-        }
+		}
         // Incorrect input, get degree of failure
         else
         {

@@ -99,13 +99,13 @@ public class PlayerUI : MonoBehaviour
         GameOverScreen = false;
         restartText.gameObject.SetActive(false);
         mainText.text = "Ready";
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.5f);
         mainText.text = "3";
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         mainText.text = "2";
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         mainText.text = "1";
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         mainText.text = "GO!";
         Player.Instance.StartGame();
         yield return new WaitForSeconds(1);
@@ -130,7 +130,7 @@ public class PlayerUI : MonoBehaviour
 
     public void SetMisses(int misses)
     {
-        missText.text = misses.ToString(); ;
+        missText.text = (3 - misses).ToString(); ;
     }
 
     public void DequeueAction()

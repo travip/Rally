@@ -23,8 +23,11 @@ public class CarTextBox : MonoBehaviour
     public Image PlayerArrowBox;
     public Image PlayerInnerArrowBox;
     public Image PlayerArrow;
+    public Image PlayerArrowBoxWrong;
+    public Image PlayerInnerArrowBoxWrong;
+	public Image PlayerArrowWrong;
 
-    public List<Sprite> arrowSprites;
+	public List<Sprite> arrowSprites;
 
     public Conversation Debug1;
     public Conversation debug2;
@@ -116,10 +119,15 @@ public class CarTextBox : MonoBehaviour
     {
         isConversing = true;
         PlayerArrow.sprite = arrowSprites[(int)road.RoadType];
-        if (road.wasCorrect)
-            PlayerArrow.color = Color.green;
-        else
-            PlayerArrow.color = Color.red;
+		
+		if (road.wasCorrect)
+			PlayerArrow.color = Color.green;
+		else {
+			PlayerArrow.color = Color.red;
+			PlayerArrowBoxWrong.gameObject.SetActive(true);
+			Debug.Log("Entered " + road.enteredType);
+			PlayerArrowWrong.sprite = arrowSprites[(int)road.enteredType];
+		}
 
         PlayerArrowBox.gameObject.SetActive(true);
         // Fade In
@@ -156,7 +164,8 @@ public class CarTextBox : MonoBehaviour
             yield return null;
         }
         PlayerArrowBox.gameObject.SetActive(false);
-        isConversing = false;
+		PlayerArrowBoxWrong.gameObject.SetActive(false);
+		isConversing = false;
     }
 
     public IEnumerator Converse(Conversation[] msgs)

@@ -618,6 +618,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RoadType: 1
+  wasCorrect: 0
+  enteredType: 3
   endPoints:
   - {fileID: 4859894815758918}
   - {fileID: 4063398246111678}
