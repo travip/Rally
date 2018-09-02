@@ -57,30 +57,16 @@ public class Car : MonoBehaviour
     void Start ()
     {
         LastWaypoint = new Waypoint(transform.position, transform.rotation, false);
-        GetNewRoads();
         ProcessNextRoadAsStraight();
         BuildAllPaths();
     }
 
-    private void AddNewRoads()
+    public void EnteredNewRoad()
     {
-        Debug.Log("ADD NEW ROADS!");
-        roadGenerator.AddNewRoadSection();
-    }
-
-    private void GetNewRoads()
-    {
-        Debug.Log("GET NEW ROADS:")
-        if (roadGenerator.currentRoads.Count - RoadsAdded < 20)
-            AddNewRoads();
-        Debug.Log("BEFORE: " + RoadsAdded + " roads added");
-        int newLimit = RoadsAdded + 30;
-        List<RoadSegment> rSegs = roadGenerator.CurrentRoadSegments;
-        for(; RoadsAdded < newLimit; RoadsAdded++)
-        {
-            UnprossedRoads.Enqueue(rSegs[RoadsAdded]);
-        }
-        Debug.Log("AFTER: " + RoadsAdded + " roads added");
+        // Add a new road to the processing pipeline
+        roadGenerator.GenerateNextRoad();
+        RoadSegment newRoad = roadGenerator.currentRoads[RoadsAdded++].GetComponent<RoadSegment>();
+        UnprossedRoads.Enqueue(newRoad);
     }
 
     public void RestartGame()
@@ -108,11 +94,13 @@ public class Car : MonoBehaviour
     private void ProcessNextTurn(Player.ActionType action)
     {
         RoadSegment road = UnprossedRoads.Dequeue();
-        while(road.RoadType == Player.ActionType.Straight)
+        EnteredNewRoad();
+        while (road.RoadType == Player.ActionType.Straight)
         {
             Waypoints.Enqueue(road.GetRandomMidpoint());
             Waypoints.Enqueue(road.GetRandomEndpoint());
             road = UnprossedRoads.Dequeue();
+            EnteredNewRoad();
         }
 
         // Process the actual turn
@@ -141,15 +129,13 @@ public class Car : MonoBehaviour
                 Waypoints.Enqueue(road.MissLeft);
             }
         }
-        if(UnprossedRoads.Count <= 20)
-        {
-            GetNewRoads();
-        }
+        EnteredNewRoad();
     }
 
     public void ProcessNextRoadAsStraight()
     {
         RoadSegment road = UnprossedRoads.Dequeue();
+        EnteredNewRoad();
         if (road.RoadType == Player.ActionType.Straight)
         {
             Waypoints.Enqueue(road.GetRandomMidpoint());
@@ -172,10 +158,6 @@ public class Car : MonoBehaviour
                 Waypoints.Enqueue(road.MidMissLeft);
                 Waypoints.Enqueue(road.MissLeft);
             }
-        }
-        if (UnprossedRoads.Count <= 20)
-        {
-            GetNewRoads();
         }
     }
 
