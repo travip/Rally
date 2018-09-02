@@ -47,12 +47,14 @@ public class Car : MonoBehaviour
         {
             Debug.Log("Trigger enter STRAIGHT");
             other.GetComponent<BoxCollider>().enabled = false;
-        }
+			other.GetComponent<RoadSegment>().nextSegment.GetComponent<BoxCollider>().enabled = true;
+		}
         else if (other.CompareTag("Turn"))
         {
             Debug.Log("Trigger enter TURN");
             other.GetComponent<BoxCollider>().enabled = false;
-            Player.Instance.GetNextAction();
+			other.GetComponent<RoadSegment>().nextSegment.GetComponent<BoxCollider>().enabled = true;
+			Player.Instance.GetNextAction();
         }
     }
 

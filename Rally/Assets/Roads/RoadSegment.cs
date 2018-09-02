@@ -23,6 +23,8 @@ public class RoadSegment : MonoBehaviour
 	public Color highlightTint;
 	private Color previousTint;
 
+	public RoadSegment nextSegment;
+
     public Vector3 GetEndConnector()
     {
         return endPoints[2].position;

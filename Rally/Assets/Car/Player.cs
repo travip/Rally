@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
 
     public ActionType GetNextAction()
     {
+		Debug.Log("GETTING NEXT ACTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Count = " + PlayerActions.Count);
         if (PlayerActions.Count == 0)
             return ActionType.Straight;
         else

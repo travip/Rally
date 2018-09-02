@@ -56,8 +56,10 @@ public class RoadGenerator : MonoBehaviour {
     public void AddNewRoadSection()
     {
 		GameObject newRoad = Instantiate(straightRoadPrefab, transform);
+		newRoad.GetComponent<BoxCollider>().enabled = true;
 		currentRoads.Add(newRoad.transform);
-        for (int i = 0; i < roadsAhead; i++)
+
+		for (int i = 0; i < roadsAhead; i++)
             GenerateNextRoad();
     }
 
@@ -67,7 +69,9 @@ public class RoadGenerator : MonoBehaviour {
 	public void GenerateNextRoad() {
 		int extraToGenerate = 0;
 		if (currentRoads.Count == 0) {
-			currentRoads.Add(Instantiate(straightRoadPrefab, transform).transform);
+			GameObject newFirstRoad1 = Instantiate(straightRoadPrefab, transform);
+			newFirstRoad1.GetComponent<BoxCollider>().enabled = true;
+			currentRoads.Add(newFirstRoad1.transform);
 		}
 		Transform lastEnd = GetEndNode(currentRoads[currentRoads.Count - 1]);
 
@@ -132,7 +136,9 @@ public class RoadGenerator : MonoBehaviour {
 				///////////////////////////////////////////
 				// DUPLICATED CODE FROM ABOVE HOORAY
 				if (currentRoads.Count == 0) {
-					currentRoads.Add(Instantiate(straightRoadPrefab, transform).transform);
+					GameObject newFirstRoad1 = Instantiate(straightRoadPrefab, transform);
+					newFirstRoad1.GetComponent<BoxCollider>().enabled = true;
+					currentRoads.Add(newFirstRoad1.transform);
 				}
 				lastEnd = GetEndNode(currentRoads[currentRoads.Count - 1]);
 
@@ -240,6 +246,8 @@ public class RoadGenerator : MonoBehaviour {
 			transform
 		);
 		newRoad.name = currentRoads.Count + " " + AllRoadPrefabs[random].prefab;
+		Transform prevRoad = currentRoads[currentRoads.Count - 1];
+		prevRoad.GetComponent<RoadSegment>().nextSegment = newRoad.GetComponent<RoadSegment>();
 		//Debug.Log("!!!!!! Instantiating: " + newRoad.name);
 		currentRoads.Add(newRoad.transform);
 

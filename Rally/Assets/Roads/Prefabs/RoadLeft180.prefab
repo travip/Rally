@@ -484,9 +484,9 @@ BoxCollider:
   m_GameObject: {fileID: 1800138152665662}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 10, y: 4, z: 0.5}
+  m_Size: {x: 8, y: 4, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95870839096994250
 Animator:
@@ -532,3 +532,7 @@ MonoBehaviour:
   missRight: {fileID: 4619720288794882}
   NextSegment: {fileID: 0}
   LastSegment: {fileID: 0}
+  RoadCentre: {fileID: 0}
+  NoTreeZones: []
+  highlightTint: {r: 1, g: 0, b: 0, a: 1}
+  nextSegment: {fileID: 0}
