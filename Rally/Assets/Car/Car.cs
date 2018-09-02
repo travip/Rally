@@ -57,8 +57,18 @@ public class Car : MonoBehaviour
     void Start ()
     {
         LastWaypoint = new Waypoint(transform.position, transform.rotation, false);
+        roadGenerator.AddNewRoadSection();
+        InitialPopulateRoads();
         ProcessNextRoadAsStraight();
         BuildAllPaths();
+    }
+
+    private void InitialPopulateRoads()
+    {
+        for(RoadsAdded = 0; RoadsAdded < 20; RoadsAdded++)
+        {
+            UnprossedRoads.Enqueue(roadGenerator.currentRoads[RoadsAdded].GetComponent<RoadSegment>());
+        }
     }
 
     public void EnteredNewRoad()

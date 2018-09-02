@@ -1636,7 +1636,7 @@ MonoBehaviour:
     weight: 1
   straightRoadPrefab: {fileID: 1917883504400712, guid: 98672c2d5486baa489cb312d18f79b4d,
     type: 2}
-  roadsAhead: 30
+  roadsAhead: 50
   castForward: 10
   closeEnough: 40
   tooClose: 5

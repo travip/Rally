@@ -24,6 +24,7 @@ public class RoadGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
+
 		// Calculate road weights as a percentage
 		ReCalculateWeights(AllRoadPrefabs);
         System.Array.Sort<WeightedRoad>(AllRoadPrefabs, (x, y) => x.weight.CompareTo(y.weight));
@@ -55,7 +56,7 @@ public class RoadGenerator : MonoBehaviour {
     public void AddNewRoadSection()
     {
         GameObject newRoad = Instantiate(straightRoadPrefab, transform);
-        currentRoads.Add(newRoad.transform);
+        currentRoads.Add(Instantiate(straightRoadPrefab, transform).transform);
         for (int i = 0; i < roadsAhead; i++)
             GenerateNextRoad();
     }
@@ -64,10 +65,6 @@ public class RoadGenerator : MonoBehaviour {
 	int numToRemove = 10;
 	int lastRemovedAt = 0;
 	public void GenerateNextRoad() {
-		int extraToGenerate = 0;
-		if (currentRoads.Count == 0) {
-			currentRoads.Add(Instantiate(straightRoadPrefab, transform).transform);
-		}
 		Transform lastEnd = GetEndNode(currentRoads[currentRoads.Count - 1]);
 
 		// Get a list of roads that are close enough to check. Dont check the last road, we cant collide with that
@@ -116,24 +113,19 @@ public class RoadGenerator : MonoBehaviour {
 					//Debug.Log("Deleting Road " + t.gameObject.name);
 					Destroy(t.gameObject);
 					currentRoads.RemoveAt(currentRoads.Count - 1);
-					extraToGenerate += 1;
 				}
 				//for (int i = 0; i < RoadPrefabs.Count; i++) {
 				//	nums.Add(i);
 				//}
 
-
+				
 				for (int i = 0; i < AllRoadPrefabs.Length; i++) {
 					RoadPrefabs.Add(AllRoadPrefabs[i]);
 				}
 				lastRemovedAt = currentRoads.Count;
 
-
 				///////////////////////////////////////////
 				// DUPLICATED CODE FROM ABOVE HOORAY
-				if (currentRoads.Count == 0) {
-					currentRoads.Add(Instantiate(straightRoadPrefab, transform).transform);
-				}
 				lastEnd = GetEndNode(currentRoads[currentRoads.Count - 1]);
 
 				// Get a list of roads that are close enough to check. Dont check the last road, we cant collide with that
@@ -242,12 +234,6 @@ public class RoadGenerator : MonoBehaviour {
 		newRoad.name = currentRoads.Count + " " + AllRoadPrefabs[random].prefab;
 		//Debug.Log("!!!!!! Instantiating: " + newRoad.name);
 		currentRoads.Add(newRoad.transform);
-
-		if (extraToGenerate > 0)
-			Debug.Log("Extra: " + extraToGenerate);
-		for (int i = 0; i < extraToGenerate; i++) {
-			GenerateNextRoad();
-		}
 	}
 
 	Transform GetEndNode(Transform road) {
