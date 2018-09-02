@@ -5,7 +5,7 @@ using UnityEngine;
 public class RoadSegment : MonoBehaviour
 {
     public Player.ActionType RoadType;
-    public bool wasCorrect = true;
+    public bool wasCorrect = false;
 
     [SerializeField]
     private Transform[] endPoints = new Transform[3];
