@@ -8,15 +8,60 @@ public class MenuUI : MonoBehaviour
 {
 
     public Image fadeCover;
-	
-	// Update is called once per frame
-	void Update ()
+    public bool isInstructionsOpen = false;
+    public int instructionsPage = 0;
+
+    public GameObject instructions;
+    public GameObject instructionsPageOne;
+    public GameObject instructionsPageTwo;
+
+    // Update is called once per frame
+    void Update ()
     {
-        if(Input.anyKeyDown)
+        if (isInstructionsOpen)
         {
-            StartCoroutine(BeginFadeToGame(0.5f));
+            if (Input.anyKeyDown)
+            {
+                NextPage();
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                OpenInstructions();
+            }
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                StartCoroutine(BeginFadeToGame(0.5f));
+            }
         }
 	}
+
+    public void OpenInstructions()
+    {
+        isInstructionsOpen = true;
+        instructionsPage = 1;
+        instructions.gameObject.SetActive(true);
+        instructionsPageOne.gameObject.SetActive(true);
+    }
+
+    public void NextPage()
+    {
+        if (instructionsPage == 1)
+        {
+            instructionsPageOne.gameObject.SetActive(false);
+            instructionsPageTwo.gameObject.SetActive(true);
+            instructionsPage++;
+        }
+        else
+        {
+            instructionsPageTwo.gameObject.SetActive(false);
+            instructions.gameObject.SetActive(false);
+            instructionsPage = 0;
+            isInstructionsOpen = false;
+        }
+    }
 
     IEnumerator BeginFadeToGame(float transTime)
     {
