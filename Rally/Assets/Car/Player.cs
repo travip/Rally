@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public static Player Instance { get; private set; }
 
     public static int NUM_DIFF_TURNS = 9;
-    public enum ActionType { LeftAcute, LeftSquare, LeftTurn, LeftBend, Straight, RightBend, RightTurn, RightSquare, RightAcute }
+    public enum ActionType { LeftAcute, LeftSquare, LeftTurn, Straight, RightTurn, RightSquare, RightAcute }
     private readonly Queue<ActionType> PlayerActions = new Queue<ActionType>();
 
     public int MaxInputs { get; private set; }

@@ -65,7 +65,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4651943104537398}
   m_Layer: 0
-  m_Name: failLeft
+  m_Name: midMissLeft
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -110,7 +110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4194895022322144}
   m_Layer: 0
-  m_Name: failRight
+  m_Name: midMissRight
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -303,7 +303,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1555131359623230}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.67, y: 0, z: 9.01}
+  m_LocalPosition: {x: 5.5, y: 0, z: 6.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4501344176578356}
@@ -316,7 +316,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1531254122388388}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.08, y: 0, z: 11.68}
+  m_LocalPosition: {x: 7, y: 0, z: 12.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4501344176578356}
@@ -432,7 +432,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1387553876177072}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.11, y: 0, z: 11.17}
+  m_LocalPosition: {x: -5.54, y: 0, z: 6.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4501344176578356}
@@ -575,7 +575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c644749e9a712b042af364fefd62ce8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoadType: 4
+  RoadType: 3
   endPoints:
   - {fileID: 4160082841710130}
   - {fileID: 4904528540909828}
@@ -584,8 +584,8 @@ MonoBehaviour:
   - {fileID: 4121268977714010}
   - {fileID: 4899404070805902}
   - {fileID: 4329773213540832}
-  midMissLeft: {fileID: 0}
-  midMissRight: {fileID: 0}
+  midMissLeft: {fileID: 4651943104537398}
+  midMissRight: {fileID: 4194895022322144}
   missLeft: {fileID: 4564032440255852}
   missRight: {fileID: 4259931838094710}
   NextSegment: {fileID: 0}

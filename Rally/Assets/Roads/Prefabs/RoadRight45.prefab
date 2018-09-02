@@ -617,7 +617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c644749e9a712b042af364fefd62ce8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoadType: 6
+  RoadType: 4
   endPoints:
   - {fileID: 4591696418458184}
   - {fileID: 4091292763537660}

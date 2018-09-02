@@ -5,9 +5,7 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     public static PlayerInput Instance { get; private set; }
-    private const int MAX_TURN_PRESSES = 4;
-    private const int MAX_FORWARD_PRESSES = 2;
-
+    private const int MAX_TURN_PRESSES = 3;
     // Player Inputs
     private enum Inputs { Left, Right, Forward }
     private Inputs lastPressed;
@@ -96,15 +94,12 @@ public class PlayerInput : MonoBehaviour
                     Debug.Log("Something went wrong, 0 key input");
                     return;
                 case 1:
-                    Player.Instance.PlayerInput(Player.ActionType.RightBend);
-                    break;
-                case 2:
                     Player.Instance.PlayerInput(Player.ActionType.RightTurn);
                     break;
-                case 3:
+                case 2:
                     Player.Instance.PlayerInput(Player.ActionType.RightSquare);
                     break;
-                case 4:
+                case 3:
                     Player.Instance.PlayerInput(Player.ActionType.RightAcute);
                     PreventInput();
                     break;
@@ -118,15 +113,12 @@ public class PlayerInput : MonoBehaviour
                     Debug.Log("Something went wrong, 0 key input");
                     return;
                 case 1:
-                    Player.Instance.PlayerInput(Player.ActionType.LeftBend);
-                    break;
-                case 2:
                     Player.Instance.PlayerInput(Player.ActionType.LeftTurn);
                     break;
-                case 3:
+                case 2:
                     Player.Instance.PlayerInput(Player.ActionType.LeftSquare);
                     break;
-                case 4:
+                case 3:
                     Player.Instance.PlayerInput(Player.ActionType.LeftAcute);
                     PreventInput();
                     break;
