@@ -20,6 +20,7 @@ public class MyCamera : MonoBehaviour {
 	void Update ()
     {
         transform.position = Vector3.Lerp(transform.position, target.position, followLag);
-        transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, rotateLag);
+		transform.LookAt(target.parent);
+        //transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, rotateLag);
     }
 }
