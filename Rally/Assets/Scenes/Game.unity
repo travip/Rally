@@ -1118,6 +1118,11 @@ Prefab:
       propertyPath: RoadsContainer
       value: 
       objectReference: {fileID: 1493859410}
+    - target: {fileID: 114402721902912914, guid: 8c051ff36397197439c038764725d069,
+        type: 2}
+      propertyPath: DEBUG_GetRoads
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c051ff36397197439c038764725d069, type: 2}
   m_IsPrefabAsset: 0
@@ -1457,7 +1462,9 @@ MonoBehaviour:
   mainCamera: {fileID: 1391437003}
   MsgBox: {fileID: 1312096923}
   PlayerBox: {fileID: 1713362569}
+  PlayerInnerBox: {fileID: 2136133169}
   DriverBox: {fileID: 1739855405}
+  DriverInnerBox: {fileID: 209511222}
   driverMsg: {fileID: 1031621277}
   playerMsg: {fileID: 1961588252}
   Debug1:
@@ -1467,19 +1474,6 @@ MonoBehaviour:
     msg: IM DRIVER!
     isPlayer: 0
   MsgTime: 1.5
-  startMsgs: []
-  successMsgs:
-  - He's doing it!
-  missMsgs:
-  - Sammy you are breaking the car!
-  crashMsgs:
-  - She's going down!
-  leftTurnMsgs: []
-  leftSquareMsgs: []
-  leftAcuteMsgs: []
-  rightTurnMsgs: []
-  rightSquareMsgs: []
-  rightAcuteMsgs: []
 --- !u!1 &1232877761
 GameObject:
   m_ObjectHideFlags: 0
