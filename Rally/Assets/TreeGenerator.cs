@@ -26,10 +26,6 @@ public class TreeGenerator : MonoBehaviour
     public GameObject TreeObject2;
     public GameObject RockObject;
 
-    public RoadSegment DEBUG_ROAD;
-    public GameObject DEBUG_CUBE;
-    public Material DEBUG_MAT;
-
     private void Awake()
     {
         RoadsToUse = new List<RoadSegment>();
@@ -37,20 +33,22 @@ public class TreeGenerator : MonoBehaviour
 
     private void Start()
     {
-        //GenerateTreesForRoadSegment(DEBUG_ROAD);
-        foreach(Transform t in GameObject.Find("Roads").transform)
-        {
-            InvalidPlacements.AddRange(t.GetComponent<RoadSegment>().NoTreeZones);
-        }
-        GenerateTrees();
     }
 
-    private void GenerateTrees()
+    public void AddCollidersFromRoads(RoadSegment[] roads)
+    {
+        foreach(RoadSegment r in roads)
+        {
+            InvalidPlacements.AddRange(r.NoTreeZones);
+        }
+    }
+
+    public void GenerateTrees()
     {
         Trees = new List<Transform>();
         for(int i = 0; i < numTrees; i++)
         {
-            GameObject newTree = Instantiate(TreeObject1);
+            GameObject newTree = Instantiate(TreeObject1, transform);
             newTree.transform.position = GenerateRandomPosition();
             Trees.Add(newTree.transform);
         }
@@ -70,6 +68,14 @@ public class TreeGenerator : MonoBehaviour
                     break;
                 }
             }
+        }
+    }
+
+    public void DeleteAllTrees()
+    {
+        foreach(Transform t in transform)
+        {
+            Destroy(t.gameObject);
         }
     }
 

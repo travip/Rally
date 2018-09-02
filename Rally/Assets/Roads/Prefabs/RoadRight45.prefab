@@ -626,8 +626,8 @@ MonoBehaviour:
   - {fileID: 4015529846857884}
   - {fileID: 4715002111078754}
   - {fileID: 4256629182583336}
-  midMissLeft: {fileID: 0}
-  midMissRight: {fileID: 0}
+  midMissLeft: {fileID: 4094928360859044}
+  midMissRight: {fileID: 4076367472754310}
   missLeft: {fileID: 4187985186417792}
   missRight: {fileID: 4199244786808198}
   NextSegment: {fileID: 0}

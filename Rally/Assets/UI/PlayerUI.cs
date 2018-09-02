@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -57,6 +58,25 @@ public class PlayerUI : MonoBehaviour
     public void FadeIn()
     {
         StartCoroutine(StartFadeIn(0.5f));
+    }
+
+    public void RestartGame()
+    {
+        StartCoroutine(StartFadeOut(0.5f));
+    }
+
+    private IEnumerator StartFadeOut(float transTime)
+    {
+        float elapsedTime = 0.0f;
+        Color c = Color.black;
+        while (elapsedTime < transTime)
+        {
+            c.a = Mathf.Lerp(0f, 1f, (elapsedTime / transTime));
+            fadeCover.color = c;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        SceneManager.LoadScene("Game");
     }
 
     private IEnumerator StartFadeIn(float transTime)

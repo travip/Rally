@@ -12,6 +12,7 @@ public class Car : MonoBehaviour
     public BoxCollider col;
     public CarTextBox carMsg;
     public RoadGenerator roadGenerator;
+    public TreeGenerator treeGenerator;
 
     private bool isMoving = false;
     public int Misses = 0;
@@ -55,40 +56,47 @@ public class Car : MonoBehaviour
     void Start ()
     {
         LastWaypoint = new Waypoint(transform.position, transform.rotation, false);
-        roadGenerator.AddNewRoadSection().ForEach(
-            r => UnprossedRoads.Enqueue(r)
-        );
+        AddNewRoads();
         ProcessNextRoadAsStraight();
         BuildAllPaths();
     }
 
-    public void RestartGame()
+    private void AddNewRoads()
     {
-        Waypoints = new Queue<Waypoint>();
-        Paths = new Queue<Path>();
-        UnvisitedWaypoints = new Queue<Waypoint>();
-        UnprossedRoads = new Queue<RoadSegment>();
-
-        rb.isKinematic = true;
-        transform.SetPositionAndRotation(new Vector3(0f, CAR_Y_OFFSET, 0f), Quaternion.identity);
-        LastWaypoint = new Waypoint(transform.position, transform.rotation, false);
-        isMoving = false;
-        Crashed = false;
-        Misses = 0;
-        PlayerUI.Instance.time = 0f;
-
-        // Destroy all current roads
-        foreach(Transform t in roadGenerator.transform)
-        {
-            Destroy(t.gameObject);
-        }
-        // Build new roads
         roadGenerator.AddNewRoadSection().ForEach(
             r => UnprossedRoads.Enqueue(r)
         );
-        ProcessNextRoadAsStraight();
-        BuildAllPaths();
-        Player.Instance.BeginCountdown();
+        treeGenerator.AddCollidersFromRoads(UnprossedRoads.ToArray());
+        treeGenerator.GenerateTrees();
+    }
+
+    public void RestartGame()
+    {
+        PlayerUI.Instance.RestartGame();
+        //Waypoints = new Queue<Waypoint>();
+        //Paths = new Queue<Path>();
+        //UnvisitedWaypoints = new Queue<Waypoint>();
+        //UnprossedRoads = new Queue<RoadSegment>();
+
+        //rb.isKinematic = true;
+        //transform.SetPositionAndRotation(new Vector3(0f, CAR_Y_OFFSET, 0f), Quaternion.identity);
+        //LastWaypoint = new Waypoint(transform.position, transform.rotation, false);
+        //isMoving = false;
+        //Crashed = false;
+        //Misses = 0;
+        //PlayerUI.Instance.time = 0f;
+
+        //// Destroy all current roads
+        //foreach(Transform t in roadGenerator.transform)
+        //{
+        //    Destroy(t.gameObject);
+        //}
+        //treeGenerator.DeleteAllTrees();
+        //// Build new roads
+        //AddNewRoads();
+        //ProcessNextRoadAsStraight();
+        //BuildAllPaths();
+        //Player.Instance.BeginCountdown();
     }
 
     public void PathMissed()
@@ -146,9 +154,7 @@ public class Car : MonoBehaviour
         }
         if(UnprossedRoads.Count <= 20)
         {
-            roadGenerator.AddNewRoadSection().ForEach(
-                r => UnprossedRoads.Enqueue(r)
-            );
+            AddNewRoads();
         }
     }
 
@@ -180,9 +186,7 @@ public class Car : MonoBehaviour
         }
         if (UnprossedRoads.Count <= 20)
         {
-            roadGenerator.AddNewRoadSection().ForEach(
-                r => UnprossedRoads.Enqueue(r)
-            );
+            AddNewRoads();
         }
     }
 
@@ -203,7 +207,7 @@ public class Car : MonoBehaviour
         Waypoint NextWaypoint = Waypoints.Dequeue();
         Path p = PathManager.Instance.GeneratePath(LastWaypoint, NextWaypoint);
         LastWaypoint = NextWaypoint;
-        PathManager.Instance.VisualizePath(p);
+        //PathManager.Instance.VisualizePath(p);
         Paths.Enqueue(p);
         UnvisitedWaypoints.Enqueue(LastWaypoint);
     }
