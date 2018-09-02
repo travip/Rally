@@ -1542,7 +1542,7 @@ MonoBehaviour:
     of greatest backseet racer of all time!
 
 
-    Use the left and right arrow keys to note the intensiting of the upcoming turns.
+    Use the left and right arrow keys to note the intensity of the upcoming turns.
     Tap the arrow key up to 3 times in succession to choose a turn'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1611,7 +1611,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 562486484}
-    characterCount: 414
+    characterCount: 412
     spriteCount: 0
     spaceCount: 76
     wordCount: 76
