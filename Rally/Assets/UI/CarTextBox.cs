@@ -70,7 +70,15 @@ public class CarTextBox : MonoBehaviour
     public void DisplayStartMessage()
     {
         if (!isConversing)
-            StartCoroutine(Converse(startMsgs1));
+        {
+            int choice = Random.Range(1, 4);
+            if (choice == 1)
+                StartCoroutine(Converse(startMsgs1));
+            else if (choice == 2)
+                StartCoroutine(Converse(startMsgs2));
+            else
+                StartCoroutine(Converse(startMsgs3));
+        }
     }
 
     public void DisplayCrashMessage()
@@ -82,7 +90,15 @@ public class CarTextBox : MonoBehaviour
     public void DisplayMissMessage()
     {
         if (!isConversing)
-            StartCoroutine(Converse(missMsgs2));
+        {
+            int choice = Random.Range(1, 4);
+            if (choice == 1)
+                StartCoroutine(Converse(missMsgs1));
+            else if (choice == 2)
+                StartCoroutine(Converse(missMsgs2));
+            else
+                StartCoroutine(Converse(missMsgs3));
+        }
     }
 
     public void DisplaySuccessMessage()
