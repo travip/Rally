@@ -562,7 +562,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 16, y: 1, z: 12}
+  m_Size: {x: 16, y: 10, z: 12}
   m_Center: {x: 0, y: 0, z: 6}
 --- !u!65 &65730376201131988
 BoxCollider:
@@ -574,7 +574,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 12, y: 1, z: 12}
+  m_Size: {x: 12, y: 10, z: 12}
   m_Center: {x: 0, y: 0, z: 6}
 --- !u!65 &65781800074265198
 BoxCollider:
@@ -632,3 +632,7 @@ MonoBehaviour:
   missRight: {fileID: 4384225951770610}
   NextSegment: {fileID: 0}
   LastSegment: {fileID: 0}
+  RoadCentre: {fileID: 0}
+  NoTreeZones:
+  - {fileID: 65730376201131988}
+  - {fileID: 65349538599676910}

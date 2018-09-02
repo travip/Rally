@@ -5,9 +5,12 @@ using UnityEngine;
 public class TreeGenerator : MonoBehaviour
 {
     public List<RoadSegment> RoadsToUse;
+    public List<BoxCollider> InvalidPlacements;
+    public List<Transform> Trees;
 
     public float treeGenerationHalfWidth;
     public float treeGenerationHalfHeight;
+    public Vector3 treeCenter;
 
     public const int ITER_MAX = 1000;
     public int iter = 0;
@@ -25,6 +28,7 @@ public class TreeGenerator : MonoBehaviour
 
     public RoadSegment DEBUG_ROAD;
     public GameObject DEBUG_CUBE;
+    public Material DEBUG_MAT;
 
     private void Awake()
     {
@@ -33,48 +37,49 @@ public class TreeGenerator : MonoBehaviour
 
     private void Start()
     {
-        GenerateTreesForRoadSegment(DEBUG_ROAD);
+        //GenerateTreesForRoadSegment(DEBUG_ROAD);
+        foreach(Transform t in GameObject.Find("Roads").transform)
+        {
+            InvalidPlacements.AddRange(t.GetComponent<RoadSegment>().NoTreeZones);
+        }
+        GenerateTrees();
     }
 
-    private void GenerateTreesForRoadSegment(RoadSegment road)
+    private void GenerateTrees()
     {
-        Debug.Log("Making new trees");
-        //Find a valid place to put the tree
+        Trees = new List<Transform>();
         for(int i = 0; i < numTrees; i++)
         {
-            Vector3 treePos = GenerateRandomPosition(road);
             GameObject newTree = Instantiate(TreeObject1);
-            newTree.transform.position = treePos;
-            Debug.Log("Made a new tree!");
-            
+            newTree.transform.position = GenerateRandomPosition();
+            Trees.Add(newTree.transform);
+        }
+
+        DeleteInvalidTrees();
+    }
+
+    private void DeleteInvalidTrees()
+    {
+        foreach(Transform t in Trees)
+        {
+            foreach(BoxCollider b in InvalidPlacements)
+            {
+                if (b.bounds.Contains(t.position))
+                {
+                    Destroy(t.gameObject);
+                    break;
+                }
+            }
         }
     }
 
     // Generated a valid point for a road
-    private Vector3 GenerateRandomPosition(RoadSegment road)
-    {
-        iter = 0;
-        bool valid = false;
-        Vector3 treeLoc = Vector3.zero;
-        while (!valid)
-        {
-            iter++;
-            valid = true;
-            treeLoc = new Vector3(Random.Range(-treeGenerationHalfWidth, treeGenerationHalfWidth), 0f, Random.Range(-treeGenerationHalfHeight, treeGenerationHalfHeight)) + road.CentreMidpoint.Position;
-
-            foreach (BoxCollider box in road.NoTreeZones)
-            {
-                if (box.bounds.Contains(treeLoc))
-                    valid = false;
-            }
-            if (iter >= ITER_MAX)
-            {
-                Debug.Log("MAX ITERATIOONS EXCEEDED");
-                return Vector3.zero;
-            }
-        }
-
-        return treeLoc;
+    private Vector3 GenerateRandomPosition()
+    { 
+        return new Vector3(Random.Range(-treeGenerationHalfWidth, treeGenerationHalfWidth), 
+                           0f, 
+                           Random.Range(-treeGenerationHalfHeight, treeGenerationHalfHeight)) 
+            + treeCenter;
     }
 
     private float RandomNormal()
