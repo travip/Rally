@@ -1863,12 +1863,32 @@ Prefab:
       propertyPath: RoadsContainer
       value: 
       objectReference: {fileID: 1493859410}
+    - target: {fileID: 4867894519882838, guid: 8c051ff36397197439c038764725d069, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -19.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 4867894519882838, guid: 8c051ff36397197439c038764725d069, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 18.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 4070718598198162, guid: 8c051ff36397197439c038764725d069, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 4.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 4070718598198162, guid: 8c051ff36397197439c038764725d069, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 6.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4070718598198162, guid: 8c051ff36397197439c038764725d069, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 2.28
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c051ff36397197439c038764725d069, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &1112432728 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1744605841893216, guid: 8c051ff36397197439c038764725d069,
+--- !u!4 &1112432732 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4867894519882838, guid: 8c051ff36397197439c038764725d069,
     type: 2}
   m_PrefabInternal: {fileID: 1112432727}
 --- !u!1 &1124561979
@@ -2440,7 +2460,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1312096923
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2575,8 +2595,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e8abd4b426075b469a67ed40ae31155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1112432728}
+  target: {fileID: 1112432732}
   followLag: 0.2
+  rotateLag: 0.2
 --- !u!81 &1391437002
 AudioListener:
   m_ObjectHideFlags: 0
