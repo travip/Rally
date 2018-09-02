@@ -203,9 +203,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4686165746780508}
   - component: {fileID: 114776664826212526}
+  - component: {fileID: 65048265078629524}
   m_Layer: 0
   m_Name: RoadStraight
-  m_TagString: Untagged
+  m_TagString: Straight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -385,8 +386,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1917883504400712}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.4673, y: 0.043156315, z: 15.907775}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -23.220175, y: 0.043156315, z: 6.166625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4605103205591376}
@@ -462,6 +463,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1811765620003802}
   m_Mesh: {fileID: 4300000, guid: 3425809463ba2784eadad5c4f21d31ed, type: 3}
+--- !u!65 &65048265078629524
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1917883504400712}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 15, y: 4, z: 0.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95316387948544538
 Animator:
   serializedVersion: 3
@@ -491,7 +504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c644749e9a712b042af364fefd62ce8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoadType: 9
+  RoadType: 4
   endPoints:
   - {fileID: 4160082841710130}
   - {fileID: 4904528540909828}
@@ -500,9 +513,9 @@ MonoBehaviour:
   - {fileID: 4121268977714010}
   - {fileID: 4899404070805902}
   - {fileID: 4329773213540832}
-  FailLeft: {fileID: 4651943104537398}
-  FailRight: {fileID: 4194895022322144}
-  MissLeft: {fileID: 4564032440255852}
-  MissRight: {fileID: 4259931838094710}
+  midMissLeft: {fileID: 0}
+  midMissRight: {fileID: 0}
+  missLeft: {fileID: 4564032440255852}
+  missRight: {fileID: 4259931838094710}
   NextSegment: {fileID: 0}
   LastSegment: {fileID: 0}

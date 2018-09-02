@@ -6,7 +6,8 @@ public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
 
-    public enum ActionType { None, RightBend, RightTurn, RightSquare, RightAcute, LeftBend, LeftTurn, LeftSquare, LeftAcute, Fast, Slow }
+    public static int NUM_DIFF_TURNS = 9;
+    public enum ActionType { LeftAcute, LeftSquare, LeftTurn, LeftBend, Straight, RightBend, RightTurn, RightSquare, RightAcute }
     private readonly Queue<ActionType> PlayerActions = new Queue<ActionType>();
 
     public int MaxInputs { get; private set; }

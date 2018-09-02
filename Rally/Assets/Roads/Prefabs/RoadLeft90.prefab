@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4517789304401432}
   m_Layer: 0
-  m_Name: middle1
+  m_Name: midMissLeft
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -50,7 +50,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4830672696843206}
   m_Layer: 0
-  m_Name: failRight
+  m_Name: midMissRight
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -68,6 +68,21 @@ GameObject:
   m_Name: missLeft
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1301879793609712
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4565929572202320}
+  m_Layer: 0
+  m_Name: middle1
+  m_TagString: Untagged
+  m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -95,9 +110,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4890352348824186}
   - component: {fileID: 114855970053086370}
+  - component: {fileID: 65781800074265198}
   m_Layer: 0
   m_Name: RoadLeft90
-  m_TagString: Untagged
+  m_TagString: Turn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -296,6 +312,19 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1079814109567124}
   m_LocalRotation: {x: -0, y: -0.4825976, z: -0, w: 0.8758423}
+  m_LocalPosition: {x: -6.63, y: 0, z: 6.27}
+  m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_Children: []
+  m_Father: {fileID: 4899904550217882}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 4.822, z: 0}
+--- !u!4 &4565929572202320
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1301879793609712}
+  m_LocalRotation: {x: -0, y: -0.4825976, z: -0, w: 0.8758423}
   m_LocalPosition: {x: -3.82, y: 0, z: 9.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -335,7 +364,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1188135566659008}
   m_LocalRotation: {x: -0, y: -0.7092871, z: -0, w: 0.70491976}
-  m_LocalPosition: {x: 3.24, y: 0, z: 20.71}
+  m_LocalPosition: {x: 1.05, y: 0, z: 14.12}
   m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
   m_Children: []
   m_Father: {fileID: 4899904550217882}
@@ -361,7 +390,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1523226724589314}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.645775, y: 0.04420307, z: 1.7622687}
+  m_LocalPosition: {x: -41.029583, y: -1.09869074e-16, z: 4.948063}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4281533883073068}
@@ -382,12 +411,13 @@ Transform:
   - {fileID: 4859894815758918}
   - {fileID: 4063398246111678}
   - {fileID: 4685176734479686}
-  - {fileID: 4517789304401432}
+  - {fileID: 4565929572202320}
   - {fileID: 4400345209606084}
   - {fileID: 4104816926272710}
   - {fileID: 4303507222947200}
   - {fileID: 4384225951770610}
   - {fileID: 4830672696843206}
+  - {fileID: 4517789304401432}
   m_Father: {fileID: 4890352348824186}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -433,6 +463,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1909490070523044}
   m_Mesh: {fileID: 4300000, guid: e5b7468692b88a44b8486a5ff39046e7, type: 3}
+--- !u!65 &65781800074265198
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1523226724589314}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 12, y: 4, z: 0.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95201655871608444
 Animator:
   serializedVersion: 3
@@ -462,18 +504,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c644749e9a712b042af364fefd62ce8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoadType: 7
+  RoadType: 1
   endPoints:
   - {fileID: 4859894815758918}
   - {fileID: 4063398246111678}
   - {fileID: 4685176734479686}
   midPoints:
-  - {fileID: 4517789304401432}
+  - {fileID: 4565929572202320}
   - {fileID: 4400345209606084}
   - {fileID: 4104816926272710}
-  FailLeft: {fileID: 0}
-  FailRight: {fileID: 4830672696843206}
-  MissLeft: {fileID: 4303507222947200}
-  MissRight: {fileID: 4384225951770610}
+  midMissLeft: {fileID: 4517789304401432}
+  midMissRight: {fileID: 4830672696843206}
+  missLeft: {fileID: 4303507222947200}
+  missRight: {fileID: 4384225951770610}
   NextSegment: {fileID: 0}
   LastSegment: {fileID: 0}

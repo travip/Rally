@@ -44,8 +44,6 @@ public class PlayerInput : MonoBehaviour
             TurnKeyPressed(Inputs.Left);
         else if (Input.GetKeyDown(rightKey))
             TurnKeyPressed(Inputs.Right);
-        else if (Input.GetKeyDown(forwardKey))
-            ForwardKeyPressed();
         else if (Input.GetKeyDown(confirmKey))
             ConfirmKeyPressed();
 	}
@@ -61,19 +59,6 @@ public class PlayerInput : MonoBehaviour
 
         // Already 3 presses, a max 4 turn
         if(seqKeyPresses == MAX_TURN_PRESSES)
-            FinalInput();
-    }
-
-    private void ForwardKeyPressed()
-    {
-        if (lastPressed != Inputs.Forward && seqKeyPresses > 0)
-            FinalInput();
-
-        seqKeyPresses++;
-        lastPressed = Inputs.Forward;
-        timeSinceLastPress = 0.0f;
-
-        if (seqKeyPresses == MAX_FORWARD_PRESSES)
             FinalInput();
     }
 
@@ -123,21 +108,6 @@ public class PlayerInput : MonoBehaviour
                     break;
                 case 4:
                     Player.Instance.PlayerInput(Player.ActionType.LeftAcute);
-                    break;
-            }
-        }
-        else if(lastPressed == Inputs.Forward)
-        {
-            switch(seqKeyPresses)
-            {
-                case 0:
-                    Debug.Log("Something went wrong, 0 key input");
-                    return;
-                case 1:
-                    Player.Instance.PlayerInput(Player.ActionType.Slow);
-                    break;
-                case 2:
-                    Player.Instance.PlayerInput(Player.ActionType.Fast);
                     break;
             }
         }

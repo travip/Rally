@@ -35,9 +35,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4168953181441326}
   - component: {fileID: 114824836823423168}
+  - component: {fileID: 65650520006994102}
   m_Layer: 0
   m_Name: RoadLeft45
-  m_TagString: Untagged
+  m_TagString: Turn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,7 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4007430051992100}
   m_Layer: 0
-  m_Name: failRight
+  m_Name: midMissRight
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -189,7 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4591696418458184}
   m_Layer: 0
-  m_Name: failLeft
+  m_Name: midMissLeft
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -232,7 +233,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1638602354859214}
   m_LocalRotation: {x: -0, y: -0.46626797, z: -0, w: 0.88464355}
-  m_LocalPosition: {x: 6.7, y: 0, z: 17.56}
+  m_LocalPosition: {x: 1.48, y: -6.01, z: 15.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4240594817711740}
@@ -271,7 +272,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1126063223651716}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -34.301178, y: 0.063278034, z: 1.1977699}
+  m_LocalPosition: {x: -39.590683, y: -1.2948605e-16, z: 5.831533}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4818130867977838}
@@ -361,7 +362,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722656124905332}
   m_LocalRotation: {x: -0, y: -0.46626797, z: -0, w: 0.88464355}
-  m_LocalPosition: {x: -14.41, y: 0, z: 5.92}
+  m_LocalPosition: {x: -6.59, y: 0, z: 6.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4240594817711740}
@@ -462,6 +463,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1257587761436326}
   m_Mesh: {fileID: 4300000, guid: aba4bd022c28ca24688b0b581d6977c8, type: 3}
+--- !u!65 &65650520006994102
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1126063223651716}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 15, y: 4, z: 0.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95532073897633958
 Animator:
   serializedVersion: 3
@@ -491,7 +504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c644749e9a712b042af364fefd62ce8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoadType: 6
+  RoadType: 2
   endPoints:
   - {fileID: 4602042868949796}
   - {fileID: 4091292763537660}
@@ -500,9 +513,9 @@ MonoBehaviour:
   - {fileID: 4015529846857884}
   - {fileID: 4715002111078754}
   - {fileID: 4256629182583336}
-  FailLeft: {fileID: 4591696418458184}
-  FailRight: {fileID: 4007430051992100}
-  MissLeft: {fileID: 4651418054629946}
-  MissRight: {fileID: 4512937837703720}
+  midMissLeft: {fileID: 4591696418458184}
+  midMissRight: {fileID: 4007430051992100}
+  missLeft: {fileID: 4651418054629946}
+  missRight: {fileID: 4512937837703720}
   NextSegment: {fileID: 0}
   LastSegment: {fileID: 0}

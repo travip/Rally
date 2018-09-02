@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Car : MonoBehaviour
 {
-    public const float PATH_TIME = 2f;
+    public const float PATH_TIME = 1f;
 	public Player player;
 
     private bool isMoving = false;
@@ -22,39 +22,107 @@ public class Car : MonoBehaviour
     public Queue<RoadSegment> UnprossedRoads = new Queue<RoadSegment>();
 
     public List<RoadSegment> DEBUG_RoadList = new List<RoadSegment>();
+    public bool DEBUG_GetRoads;
+    public Transform RoadsContainer;
 
     private Waypoint LastWaypoint;
-	
-	void Start ()
+
+    private void OnTriggerEnter(Collider other)
     {
-        //Waypoints.Enqueue(new Waypoint(new Vector3(0, 0, 13), Quaternion.identity));
-        //Waypoints.Enqueue(new Waypoint(new Vector3(-7, 0, 27), Quaternion.Euler(new Vector3(0f, -45f, 0f))));
-        //Waypoints.Enqueue(new Waypoint(new Vector3(-25, 0, 25), Quaternion.Euler(new Vector3(0f, -135f, 0f))));
-        if(DEBUG_RoadList.Count >= 0)
+        if (other.CompareTag("Straight"))
         {
-            foreach (RoadSegment r in DEBUG_RoadList)
-                UnprossedRoads.Enqueue(r);
+            Debug.Log("Trigger enter STRAIGHT");
+            other.GetComponent<BoxCollider>().enabled = false;
+        }
+        else if (other.CompareTag("Turn"))
+        {
+            Debug.Log("Trigger enter TURN");
+            Player.Instance.GetNextAction();
+            other.GetComponent<BoxCollider>().enabled = false;
+        }
+    }
+
+    void Start ()
+    {
+        if(DEBUG_GetRoads)
+        {
+            foreach(Transform t in RoadsContainer)
+            {
+                UnprossedRoads.Enqueue(t.GetComponent<RoadSegment>());
+            }
+        }
+    }
+
+    // First road should always be straight
+    public void Begin()
+    {
+        if(UnprossedRoads.Count == 0)
+        {
+            Debug.Log("BEGIN FAILED, no starting road?");
+        }
+        else
+        {
+            RoadSegment road = UnprossedRoads.Dequeue();
+            Waypoints.Enqueue(road.CentreMidpoint);
+            Waypoints.Enqueue(road.CentreEndpoint);
+            BuildAllPaths();
+        }
+    }
+
+    public void OnReachNewTurn()
+    {
+        Player.Instance.GetNextAction();
+    }
+
+    private void NoInputNextSection()
+    {
+
+    }
+
+    private void ProcessNextTurn(Player.ActionType action)
+    {
+        RoadSegment road = UnprossedRoads.Dequeue();
+        while(road.RoadType == Player.ActionType.Straight)
+        {
+            Waypoints.Enqueue(road.GetRandomMidpoint());
+            Waypoints.Enqueue(road.GetRandomEndpoint());
+            road = UnprossedRoads.Dequeue();
+        }
+
+        // Process the actual turn
+        if (action == road.RoadType)
+        {
+            Waypoints.Enqueue(road.GetRandomMidpoint());
+            Waypoints.Enqueue(road.GetRandomEndpoint());
+            Debug.Log("You did gud");
+        }
+        // Incorrect input, get degree of failure
+        else
+        {
+            int diff = action - road.RoadType;
+            // MISS RIGHT
+            if (diff > 0)
+            {
+                Debug.Log("MISS RIGHT");
+                Waypoints.Enqueue(road.MidMissRight);
+                Waypoints.Enqueue(road.MissRight);
+            }
+            // MISS LEFT
+            else if (diff < -0)
+            {
+                Debug.Log("MISS LEFT");
+                Waypoints.Enqueue(road.MidMissLeft);
+                Waypoints.Enqueue(road.MissLeft);
+            }
         }
     }
 
     public void OnPlayerInput(Player.ActionType action)
     {
-        RoadSegment road = UnprossedRoads.Peek();
-        // Correct input
-        if (action == road.RoadType)
-        {
-            UnprossedRoads.Dequeue();
-            Waypoints.Enqueue(road.GetRandomMidpoint());
-            Waypoints.Enqueue(road.GetRandomEndpoint());
-            Debug.Log("You did gud");
-            BuildAllPaths();
-            if (!isMoving)
-                BeginFollowPath();
-        }
-        else
-        {
-            Debug.Log("u fucked up");
-        }
+        ProcessNextTurn(action);
+        BuildAllPaths();
+        if (!isMoving)
+            BeginFollowPath();
     }
 
     public void BuildAllPaths()
@@ -75,15 +143,10 @@ public class Car : MonoBehaviour
 
     public void BeginFollowPath()
     {
-        if (Paths.Count >= 0)
+        if (Paths.Count > 0)
         {
             Debug.Log("BeginFollowPath");
             Path path = Paths.Dequeue();
-            if(path.isNewSegment)
-            {
-                Debug.Log("NEW SEGMENT!");
-                Player.Instance.GetNextAction();
-            }
             StartCoroutine(FollowPath(path, PATH_TIME / Path.NumPoints));
         }
         else
@@ -116,8 +179,6 @@ public struct Waypoint
     public Vector3 Position;
     public Quaternion Rotation;
 
-    public bool isNewSegment;
-
     public float Angle
     {
         get
@@ -127,10 +188,9 @@ public struct Waypoint
         private set { }
     }
 
-    public Waypoint(Vector3 pos, Quaternion rot, bool seg)
+    public Waypoint(Vector3 pos, Quaternion rot)
     {
         Position = pos;
         Rotation = rot;
-        isNewSegment = seg;
     }
 }

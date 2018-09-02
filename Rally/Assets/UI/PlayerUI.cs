@@ -19,7 +19,7 @@ public class PlayerUI : MonoBehaviour
     [SerializeField]
     private Sprite leftBend, leftTurn, leftSquare, leftAcute;
     [SerializeField]
-    private Sprite fast, slow;
+    private Sprite straight;
 
     private readonly Queue<TurnImage> turnImageQueue = new Queue<TurnImage>();
 
@@ -64,12 +64,12 @@ public class PlayerUI : MonoBehaviour
         newTurn.transform.SetAsFirstSibling();
         switch(actionType)
         {
-            case Player.ActionType.Fast:
-                newTurn.image.sprite = fast;
+            case Player.ActionType.Straight:
+                newTurn.image.sprite = straight;
                 break;
-            case Player.ActionType.Slow:
-                newTurn.image.sprite = slow;
-                break;
+            //case Player.ActionType.Slow:
+            //    newTurn.image.sprite = slow;
+            //    break;
             case Player.ActionType.RightBend:
                 newTurn.image.sprite = rightBend;
                 break;

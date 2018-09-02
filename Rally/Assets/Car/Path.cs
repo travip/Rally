@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Path
 {
-    public const int NumPoints = 30;
-    public bool isNewSegment;
+    public const int NumPoints = 20;
 
     public Vector2 StartPoint;
     public float StartAngle;
