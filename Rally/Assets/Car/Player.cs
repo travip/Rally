@@ -71,6 +71,7 @@ public class Player : MonoBehaviour
 
     public void StartGame()
     {
+		playerCar.StartGame();
         playerCar.BeginFollowPath();
         GamePlaying = true;
     }

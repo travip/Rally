@@ -6,8 +6,9 @@ public class RoadSegment : MonoBehaviour
 {
     public Player.ActionType RoadType;
     public bool wasCorrect = false;
+	public Player.ActionType enteredType;
 
-    [SerializeField]
+	[SerializeField]
     private Transform[] endPoints = new Transform[3];
     [SerializeField]
     private Transform[] midPoints = new Transform[3];
@@ -24,7 +25,7 @@ public class RoadSegment : MonoBehaviour
 	public Color highlightTint;
 	private Color previousTint;
 
-	public RoadSegment nextSegment;
+    public RoadSegment nextSegment;
 
     public Vector3 GetEndConnector()
     {

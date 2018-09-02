@@ -70,6 +70,10 @@ public class Car : MonoBehaviour
         carMsg.DisplayStartMessage();
     }
 
+	public void StartGame() {
+		transform.Find("ExhaustParticles").gameObject.SetActive(true);
+	}
+
     private void InitialPopulateRoads()
     {
         for(RoadsAdded = 0; RoadsAdded < 20; RoadsAdded++)
@@ -95,6 +99,7 @@ public class Car : MonoBehaviour
     {
         if(++Misses == 3)
         {
+			transform.Find("ExhaustParticles").gameObject.SetActive(false);
             Crashed = true;
             carMsg.DisplayCrashMessage();
             StopAllCoroutines();
@@ -120,13 +125,14 @@ public class Car : MonoBehaviour
             EnteredNewRoad();
         }
 
-        // Process the actual turn
-        if (action == road.RoadType)
+		// Process the actual turn
+		road.enteredType = action;
+		if (action == road.RoadType)
         {
             Waypoints.Enqueue(road.GetRandomMidpoint());
             Waypoints.Enqueue(road.GetRandomEndpoint());
             road.wasCorrect = true;
-        }
+		}
         // Incorrect input, get degree of failure
         else
         {

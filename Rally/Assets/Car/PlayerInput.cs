@@ -13,7 +13,7 @@ public class PlayerInput : MonoBehaviour
     private bool canInput = true;
 
     private float timeSinceLastPress = 0;
-    private float maxTimeBetweenPresses = 0.3f;
+    private float maxTimeBetweenPresses = 0.5f;
 
     private int seqKeyPresses = 0;
     private bool inputStarted = false;
