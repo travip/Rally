@@ -27,6 +27,7 @@ public class PlayerUI : MonoBehaviour
 
     private readonly Queue<TurnImage> turnImageQueue = new Queue<TurnImage>();
 
+	private bool paused = false;
     public bool started = false;
     public bool GameOverScreen = false;
 
@@ -40,6 +41,7 @@ public class PlayerUI : MonoBehaviour
     public TextMeshProUGUI restartText;
 	public TextMeshProUGUI endScoreText;
 	public TextMeshProUGUI endScoreLabel;
+	public GameObject pauseMenu;
 	// Use this for initialization
 	void Awake () {
         if (Instance == null)
@@ -134,6 +136,22 @@ public class PlayerUI : MonoBehaviour
 
 		GameOverScreen = true;
     }
+
+	public void TogglePause() {
+		paused = !paused;
+		if (paused) {
+			Time.timeScale = 0;
+			pauseMenu.SetActive(true);
+		} else {
+			Time.timeScale = 1;
+			pauseMenu.SetActive(false);
+		}
+	}
+
+	public void TryQuit() {
+		if (paused)
+			Application.Quit();
+	}
 
 	//private void UpdateTimer()
 	//{

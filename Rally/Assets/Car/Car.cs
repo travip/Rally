@@ -58,7 +58,10 @@ public class Car : MonoBehaviour
 			Player.Instance.GetNextAction();
             carMsg.DisplayActionFromRoad(rSeg);
         }
-    }
+		else if (other.CompareTag("Tree")) {
+			other.GetComponent<Destroyable>().GetDestroyed();
+		}
+	}
 
     void Start ()
     {
@@ -74,7 +77,7 @@ public class Car : MonoBehaviour
 		transform.Find("ExhaustParticles").gameObject.SetActive(true);
 	}
 
-    private void InitialPopulateRoads()
+	private void InitialPopulateRoads()
     {
         for(RoadsAdded = 0; RoadsAdded < 20; RoadsAdded++)
         {

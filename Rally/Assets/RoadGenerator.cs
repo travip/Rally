@@ -10,6 +10,7 @@ public struct WeightedRoad {
 
 public class RoadGenerator : MonoBehaviour {
 
+	public TreeGenerator treeGenerator;
 	public WeightedRoad[] AllRoadPrefabs;
 
     public GameObject straightRoadPrefab;
@@ -247,7 +248,8 @@ public class RoadGenerator : MonoBehaviour {
 		);
 		newRoad.name = currentRoads.Count + " " + AllRoadPrefabs[random].prefab;
 		Transform prevRoad = currentRoads[currentRoads.Count - 1];
-		prevRoad.GetComponent<RoadSegment>().nextSegment = newRoad.GetComponent<RoadSegment>();
+		RoadSegment roadSeg = newRoad.GetComponent<RoadSegment>();
+		prevRoad.GetComponent<RoadSegment>().nextSegment = roadSeg;
 		//Debug.Log("!!!!!! Instantiating: " + newRoad.name);
 		currentRoads.Add(newRoad.transform);
 
@@ -256,6 +258,8 @@ public class RoadGenerator : MonoBehaviour {
 		for (int i = 0; i < extraToGenerate; i++) {
 			GenerateNextRoad();
 		}
+
+		treeGenerator.GenerateTrees(roadSeg);
 	}
 
 	Transform GetEndNode(Transform road) {

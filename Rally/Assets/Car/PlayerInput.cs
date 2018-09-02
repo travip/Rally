@@ -23,6 +23,9 @@ public class PlayerInput : MonoBehaviour
     public KeyCode leftKey = KeyCode.LeftArrow;
     public KeyCode rightKey = KeyCode.RightArrow;
     public KeyCode confirmKey = KeyCode.Space;
+	public KeyCode pauseKey1 = KeyCode.Escape;
+	public KeyCode pauseKey2 = KeyCode.P;
+	public KeyCode quitKey = KeyCode.Q;
 
 	// Use this for initialization
 	void Awake () {
@@ -35,6 +38,11 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (Input.GetKeyDown(pauseKey1) || Input.GetKeyDown(pauseKey2))
+			PlayerUI.Instance.TogglePause();
+		else if (Input.GetKeyDown(quitKey))
+			PlayerUI.Instance.TryQuit();
+
         if (Player.Instance.GamePlaying)
         {
             if (Player.Instance.NumActionsQueued() >= 5)
@@ -42,13 +50,13 @@ public class PlayerInput : MonoBehaviour
             timeSinceLastPress += Time.deltaTime;
             if (timeSinceLastPress > maxTimeBetweenPresses && seqKeyPresses > 0)
                 FinalInput();
-            if (Input.GetKeyDown(leftKey))
-                TurnKeyPressed(Inputs.Left);
-            else if (Input.GetKeyDown(rightKey))
-                TurnKeyPressed(Inputs.Right);
-            else if (Input.GetKeyDown(confirmKey))
-                ConfirmKeyPressed();
-        }
+			if (Input.GetKeyDown(leftKey))
+				TurnKeyPressed(Inputs.Left);
+			else if (Input.GetKeyDown(rightKey))
+				TurnKeyPressed(Inputs.Right);
+			else if (Input.GetKeyDown(confirmKey))
+				ConfirmKeyPressed();
+		}
         else if (PlayerUI.Instance.GameOverScreen)
         {
             if(Input.GetKeyDown(KeyCode.R))

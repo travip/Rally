@@ -22,9 +22,7 @@ public class TreeGenerator : MonoBehaviour
     public float mean;
     public float stdDev;
 
-    public GameObject TreeObject1;
-    public GameObject TreeObject2;
-    public GameObject RockObject;
+    public GameObject[] TreePrefabs;
 
     private void Awake()
     {
@@ -56,24 +54,25 @@ public class TreeGenerator : MonoBehaviour
          InvalidPlacements.AddRange(roads.NoTreeZones);
     }
 
-    public void GenerateTrees()
+    public void GenerateTrees(RoadSegment road)
     {
         Trees = new List<Transform>();
         for(int i = 0; i < numTrees; i++)
         {
-            GameObject newTree = Instantiate(TreeObject1, transform);
-            newTree.transform.position = GenerateRandomPosition();
+			int toSpawn = Random.Range(0, TreePrefabs.Length);
+			GameObject newTree = Instantiate(TreePrefabs[toSpawn], transform);
+            newTree.transform.position = GenerateRandomPosition(road);
             Trees.Add(newTree.transform);
         }
 
-        DeleteInvalidTrees();
+        DeleteInvalidTrees(road);
     }
 
-    private void DeleteInvalidTrees()
+    private void DeleteInvalidTrees(RoadSegment road)
     {
         foreach(Transform t in Trees)
         {
-            foreach(BoxCollider b in InvalidPlacements)
+            foreach(BoxCollider b in road.NoTreeZones)
             {
                 if (b.bounds.Contains(t.position))
                 {
@@ -93,12 +92,13 @@ public class TreeGenerator : MonoBehaviour
     }
 
     // Generated a valid point for a road
-    private Vector3 GenerateRandomPosition()
-    { 
+    private Vector3 GenerateRandomPosition(RoadSegment road)
+    {
+		Transform t = road.transform;
         return new Vector3(Random.Range(-treeGenerationHalfWidth, treeGenerationHalfWidth), 
                            0f, 
                            Random.Range(-treeGenerationHalfHeight, treeGenerationHalfHeight)) 
-            + treeCenter;
+						   + t.position;
     }
 
     private float RandomNormal()
