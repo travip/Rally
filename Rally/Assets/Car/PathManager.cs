@@ -6,7 +6,7 @@ public class PathManager : MonoBehaviour
 {
     public static PathManager Instance { get; private set; }
 
-    public const float TANGENT_MAGNITUDE = 5f;
+    public const float TANGENT_MAGNITUDE = 7f;
     private PathGenerator pathGenerator;
 
     public GameObject DEBUG_OBJECT;
