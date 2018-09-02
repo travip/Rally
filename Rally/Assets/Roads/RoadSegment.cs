@@ -17,6 +17,9 @@ public class RoadSegment : MonoBehaviour
     public RoadSegment NextSegment;
     public RoadSegment LastSegment;
 
+    public Transform RoadCentre;
+    public List<BoxCollider> NoTreeZones;
+
     public Vector3 GetEndConnector()
     {
         return endPoints[2].position;

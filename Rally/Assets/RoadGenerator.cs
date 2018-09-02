@@ -41,7 +41,7 @@ public class RoadGenerator : MonoBehaviour {
 		}
 
 		bool found = false;
-		int random = 0;
+	    	int random = 0;
 		while (!found) {
 			if (nums.Count == 0) {
 				Debug.Log("No path possible here!! noooooo");
