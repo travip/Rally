@@ -19,7 +19,7 @@ public class RoadGenerator : MonoBehaviour {
 	public float closeEnough = 10f;
 	public float tooClose = 5f;
 
-	private List<Transform> currentRoads;
+	public List<Transform> currentRoads;
 
 
 	// Use this for initialization
@@ -29,7 +29,19 @@ public class RoadGenerator : MonoBehaviour {
 		ReCalculateWeights(AllRoadPrefabs);
         System.Array.Sort<WeightedRoad>(AllRoadPrefabs, (x, y) => x.weight.CompareTo(y.weight));
 		currentRoads = new List<Transform>();
-	}	
+	}
+
+    public List<RoadSegment> CurrentRoadSegments
+    {
+        get
+        {
+            List<RoadSegment> segs = new List<RoadSegment>();
+            foreach (Transform t in currentRoads)
+                segs.Add(t.GetComponent<RoadSegment>());
+            return segs;
+        }
+        private set { }
+    }
 
 	void ReCalculateWeights (WeightedRoad[] roads) {
 		float total = 0;
@@ -41,21 +53,18 @@ public class RoadGenerator : MonoBehaviour {
 		}
 	}
 
-    public List<RoadSegment> AddNewRoadSection()
+    public void AddNewRoadSection()
     {
-        List<RoadSegment> newSegments = new List<RoadSegment>();
         GameObject newRoad = Instantiate(straightRoadPrefab, transform);
         currentRoads.Add(Instantiate(straightRoadPrefab, transform).transform);
-        newSegments.Add(newRoad.GetComponent<RoadSegment>());
         for (int i = 0; i < roadsAhead; i++)
-            newSegments.Add(GenerateNextRoad());
-        return newSegments;
+            GenerateNextRoad();
     }
 
 	int startToRemove = 10;
 	int numToRemove = 10;
 	int lastRemovedAt = 0;
-	public RoadSegment GenerateNextRoad() {
+	public void GenerateNextRoad() {
 		Transform lastEnd = GetEndNode(currentRoads[currentRoads.Count - 1]);
 
 		// Get a list of roads that are close enough to check. Dont check the last road, we cant collide with that
@@ -83,7 +92,7 @@ public class RoadGenerator : MonoBehaviour {
 		while (!found) {
 			sanityBreaker -= 1;
 			if (sanityBreaker <= 0) {
-				Debug.Log("Breaking out beacuse we reached sanity breaker!");
+				//Debug.Log("Breaking out beacuse we reached sanity breaker!");
 				break;
 			}
 			//if (currentRoads.Count >= 30) testthing = true;
@@ -95,13 +104,13 @@ public class RoadGenerator : MonoBehaviour {
 
 				if (numToRemove > currentRoads.Count)
 					numToRemove = currentRoads.Count;
-				Debug.Log("");
-				Debug.Log("                  No path possible here!! noooooo. deleting " + numToRemove + " roads and trying again");
-				Debug.Log("");
+				//Debug.Log("");
+				//Debug.Log("                  No path possible here!! noooooo. deleting " + numToRemove + " roads and trying again");
+				//Debug.Log("");
 
 				for (int i = 1; i <= numToRemove; i++) {
 					Transform t = currentRoads[currentRoads.Count - 1];
-					Debug.Log("Deleting Road " + t.gameObject.name);
+					//Debug.Log("Deleting Road " + t.gameObject.name);
 					Destroy(t.gameObject);
 					currentRoads.RemoveAt(currentRoads.Count - 1);
 				}
@@ -142,7 +151,7 @@ public class RoadGenerator : MonoBehaviour {
 			//nums.Remove(random);
 			RoadPrefabs.RemoveAt(random);
 
-			Debug.Log("Trying to generate: " + AllRoadPrefabs[random].prefab.name);
+			//Debug.Log("Trying to generate: " + AllRoadPrefabs[random].prefab.name);
 			Transform potentialEnd = GetEndNode(AllRoadPrefabs[random].prefab.transform);
 			if (lastEnd.parent.localScale.x == -1) {
 				lastEnd.localScale = new Vector3(-1, 1, 1);
@@ -167,7 +176,7 @@ public class RoadGenerator : MonoBehaviour {
 			// old roads (start, middle, end)
 			bool dammit = false;
 
-			//Debug.Log("!!!!!!!!!!!!!! Number of closeRoads: " + closeRoads.Count);
+			////Debug.Log("!!!!!!!!!!!!!! Number of closeRoads: " + closeRoads.Count);
 			foreach (Transform road in closeRoads) {
 				Vector3[] oldNodes = new Vector3[5];
 				oldNodes[0] = road.position;
@@ -177,15 +186,15 @@ public class RoadGenerator : MonoBehaviour {
 				oldNodes[3] = Vector3.Lerp(oldNodes[0], oldNodes[1], 0.5f);
 				oldNodes[4] = Vector3.Lerp(oldNodes[1], oldNodes[2], 0.5f);
 				//for (int i = 0; i < 3; i++)
-				//	Debug.Log("oldNodes[" + i + "]: " + oldNodes[i]);
+				//	//Debug.Log("oldNodes[" + i + "]: " + oldNodes[i]);
 				//for (int i = 0; i < 3; i++)
-				//	Debug.Log("newNodes[" + i + "]: " + newNodes[i]);
+				//	//Debug.Log("newNodes[" + i + "]: " + newNodes[i]);
 
 				for (int i = 0; i < 5; i++) {
 					for (int j = 0; j < 5; j++) {
 						if (Vector3.Distance(newNodes[i], oldNodes[j]) < tooClose) {
-							Debug.Log("Road too close: " + road.gameObject.name);
-							//Debug.Log("Node " + i + " on NEW: " + newNodes[i] + " : " +
+							//Debug.Log("Road too close: " + road.gameObject.name);
+							////Debug.Log("Node " + i + " on NEW: " + newNodes[i] + " : " +
 							//	"Node " + j + " on OLD: " + oldNodes[j] + "  |  " + 
 							//	Vector3.Distance(newNodes[i], oldNodes[j]));
 							// This road won't work
@@ -223,9 +232,8 @@ public class RoadGenerator : MonoBehaviour {
 			transform
 		);
 		newRoad.name = currentRoads.Count + " " + AllRoadPrefabs[random].prefab;
-		Debug.Log("!!!!!! Instantiating: " + newRoad.name);
+		//Debug.Log("!!!!!! Instantiating: " + newRoad.name);
 		currentRoads.Add(newRoad.transform);
-        return newRoad.GetComponent<RoadSegment>();
 	}
 
 	Transform GetEndNode(Transform road) {

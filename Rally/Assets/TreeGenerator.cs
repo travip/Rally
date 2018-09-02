@@ -43,6 +43,19 @@ public class TreeGenerator : MonoBehaviour
         }
     }
 
+    public void AddCollidersFromRoads(List<RoadSegment> roads)
+    {
+        foreach (RoadSegment r in roads)
+        {
+            InvalidPlacements.AddRange(r.NoTreeZones);
+        }
+    }
+
+    public void AddCollidersFromRoads(RoadSegment roads)
+    {
+         InvalidPlacements.AddRange(roads.NoTreeZones);
+    }
+
     public void GenerateTrees()
     {
         Trees = new List<Transform>();

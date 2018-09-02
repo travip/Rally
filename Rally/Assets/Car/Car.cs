@@ -31,6 +31,7 @@ public class Car : MonoBehaviour
     // Road Segments WITHOUT an associated Player Input
     // Once a input is received, pop the next road segment and generate waypoints
     public Queue<RoadSegment> UnprossedRoads = new Queue<RoadSegment>();
+    public int RoadsAdded = 0;
 
     public List<RoadSegment> DEBUG_RoadList = new List<RoadSegment>();
     public bool DEBUG_GetRoads;
@@ -57,17 +58,29 @@ public class Car : MonoBehaviour
     {
         LastWaypoint = new Waypoint(transform.position, transform.rotation, false);
         AddNewRoads();
+        GetNewRoads();
         ProcessNextRoadAsStraight();
         BuildAllPaths();
     }
 
     private void AddNewRoads()
     {
-        roadGenerator.AddNewRoadSection().ForEach(
-            r => UnprossedRoads.Enqueue(r)
-        );
-        treeGenerator.AddCollidersFromRoads(UnprossedRoads.ToArray());
-        treeGenerator.GenerateTrees();
+        Debug.Log("ADD NEW ROADS!");
+        roadGenerator.AddNewRoadSection();
+        //treeGenerator.AddCollidersFromRoads(roadGenerator.CurrentRoadSegments);
+        //treeGenerator.GenerateTrees();
+    }
+
+    private void GetNewRoads()
+    {
+        Debug.Log("BEFORE: " + RoadsAdded + " roads added");
+        int newLimit = RoadsAdded + 30;
+        List<RoadSegment> rSegs = roadGenerator.CurrentRoadSegments;
+        for(; RoadsAdded < newLimit; RoadsAdded++)
+        {
+            UnprossedRoads.Enqueue(rSegs[RoadsAdded]);
+        }
+        Debug.Log("AFTER: " + RoadsAdded + " roads added");
     }
 
     public void RestartGame()
