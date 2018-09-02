@@ -57,7 +57,6 @@ public class Car : MonoBehaviour
     void Start ()
     {
         LastWaypoint = new Waypoint(transform.position, transform.rotation, false);
-        AddNewRoads();
         GetNewRoads();
         ProcessNextRoadAsStraight();
         BuildAllPaths();
@@ -67,12 +66,13 @@ public class Car : MonoBehaviour
     {
         Debug.Log("ADD NEW ROADS!");
         roadGenerator.AddNewRoadSection();
-        //treeGenerator.AddCollidersFromRoads(roadGenerator.CurrentRoadSegments);
-        //treeGenerator.GenerateTrees();
     }
 
     private void GetNewRoads()
     {
+        Debug.Log("GET NEW ROADS:")
+        if (roadGenerator.currentRoads.Count - RoadsAdded < 20)
+            AddNewRoads();
         Debug.Log("BEFORE: " + RoadsAdded + " roads added");
         int newLimit = RoadsAdded + 30;
         List<RoadSegment> rSegs = roadGenerator.CurrentRoadSegments;
@@ -86,30 +86,6 @@ public class Car : MonoBehaviour
     public void RestartGame()
     {
         PlayerUI.Instance.RestartGame();
-        //Waypoints = new Queue<Waypoint>();
-        //Paths = new Queue<Path>();
-        //UnvisitedWaypoints = new Queue<Waypoint>();
-        //UnprossedRoads = new Queue<RoadSegment>();
-
-        //rb.isKinematic = true;
-        //transform.SetPositionAndRotation(new Vector3(0f, CAR_Y_OFFSET, 0f), Quaternion.identity);
-        //LastWaypoint = new Waypoint(transform.position, transform.rotation, false);
-        //isMoving = false;
-        //Crashed = false;
-        //Misses = 0;
-        //PlayerUI.Instance.time = 0f;
-
-        //// Destroy all current roads
-        //foreach(Transform t in roadGenerator.transform)
-        //{
-        //    Destroy(t.gameObject);
-        //}
-        //treeGenerator.DeleteAllTrees();
-        //// Build new roads
-        //AddNewRoads();
-        //ProcessNextRoadAsStraight();
-        //BuildAllPaths();
-        //Player.Instance.BeginCountdown();
     }
 
     public void PathMissed()
@@ -167,7 +143,7 @@ public class Car : MonoBehaviour
         }
         if(UnprossedRoads.Count <= 20)
         {
-            AddNewRoads();
+            GetNewRoads();
         }
     }
 
@@ -199,7 +175,7 @@ public class Car : MonoBehaviour
         }
         if (UnprossedRoads.Count <= 20)
         {
-            AddNewRoads();
+            GetNewRoads();
         }
     }
 
