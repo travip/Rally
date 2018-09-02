@@ -561,7 +561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.47058824}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -859,6 +859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeCover: {fileID: 879710691}
+  carBox: {fileID: 0}
   playerTurnInputList: {fileID: 23770645}
   turnImage: {fileID: 114728003654032898, guid: 1a73106df41074244b0c17dcd0916f7e,
     type: 2}
@@ -1454,15 +1455,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCar: {fileID: 415861511}
   mainCamera: {fileID: 1391437003}
-  MsgBox: {fileID: 0}
-  msg: {fileID: 1961588252}
+  MsgBox: {fileID: 1312096923}
+  PlayerBox: {fileID: 1713362569}
+  DriverBox: {fileID: 1739855405}
+  driverMsg: {fileID: 1031621277}
+  playerMsg: {fileID: 1961588252}
+  Debug1:
+    msg: Hi im PLAYER
+    isPlayer: 1
+  debug2:
+    msg: IM DRIVER!
+    isPlayer: 0
   MsgTime: 1.5
+  startMsgs: []
   successMsgs:
   - He's doing it!
   missMsgs:
   - Sammy you are breaking the car!
   crashMsgs:
   - She's going down!
+  leftTurnMsgs: []
+  leftSquareMsgs: []
+  leftAcuteMsgs: []
+  rightTurnMsgs: []
+  rightSquareMsgs: []
+  rightAcuteMsgs: []
 --- !u!1 &1232877761
 GameObject:
   m_ObjectHideFlags: 0
@@ -2036,7 +2053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.19607843}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2106,7 +2123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.19607843}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2709,7 +2726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.47058824}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

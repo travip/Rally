@@ -8,7 +8,7 @@ public class TurnImage : MonoBehaviour
     public const float SHRINK_TIME = 0.2f;
     public Image image;
     public Vector3 startSize;
-
+    public Player.ActionType action;
 
     public void Start()
     {

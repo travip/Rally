@@ -11,6 +11,7 @@ public class PlayerUI : MonoBehaviour
     public static PlayerUI Instance { get; private set; }
 
     public Image fadeCover;
+    public CarTextBox carBox;
 
     // Turning UI
     [SerializeField]
@@ -150,12 +151,6 @@ public class PlayerUI : MonoBehaviour
             case Player.ActionType.Straight:
                 newTurn.image.sprite = straight;
                 break;
-            //case Player.ActionType.Slow:
-            //    newTurn.image.sprite = slow;
-            //    break;
-            //case Player.ActionType.RightBend:
-            //    newTurn.image.sprite = rightBend;
-            //    break;
             case Player.ActionType.RightTurn:
                 newTurn.image.sprite = rightTurn;
                 break;
@@ -165,9 +160,6 @@ public class PlayerUI : MonoBehaviour
             case Player.ActionType.RightAcute:
                 newTurn.image.sprite = rightAcute;
                 break;
-            //case Player.ActionType.LeftBend:
-            //    newTurn.image.sprite = leftBend;
-            //    break;
             case Player.ActionType.LeftTurn:
                 newTurn.image.sprite = leftTurn;
                 break;
