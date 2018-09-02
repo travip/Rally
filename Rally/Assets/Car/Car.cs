@@ -10,10 +10,13 @@ public class Car : MonoBehaviour
 	public Player player;
     public Rigidbody rb;
     public BoxCollider col;
+    public CarTextBox carMsg;
 
     private bool isMoving = false;
     public int Misses = 0;
     private bool Crashed = false;
+
+    public Transform TextBoxAnchor;
 
     // Unprocessed Waypoints
     private Queue<Waypoint> Waypoints = new Queue<Waypoint>();
@@ -94,12 +97,15 @@ public class Car : MonoBehaviour
         if(++Misses == 3)
         {
             Crashed = true;
+            carMsg.DisplayCrashMessage();
             StopAllCoroutines();
             PlayerUI.Instance.DisplayGameOver();
             rb.isKinematic = false;
             rb.AddExplosionForce(1000f, -transform.forward * 0.5f, 2f);
             Player.Instance.GamePlaying = false;
         }
+        else
+            carMsg.DisplayMissMessage();
         PlayerUI.Instance.SetMisses(Misses);
     }
 
